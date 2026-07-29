@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-hot_news_runner.py V14.1 - 统一新闻生成脚本
-4合1: PPT + docx + 公众号HTML + 公众号草稿(Supabase Edge Function直调)
+hot_news_runner.py V15 - 统一新闻生成脚本
+4合1: PPT + docx + 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
 
 V14变更: 公众号草稿从 appmiaoda.com/api 改为直调 Supabase Edge Function,
          添加Bearer+apikey双认证头，修复entrypoint部署问题。
 V14.1变更: 新增配图一致性校验(check_image_consistency)、
            工作区清理(cleanup_workspace，排除自身脚本不被删除)。
+V15变更: 草稿改为单篇模式(5条新闻合并为1篇图文)，
+         Edge Function createDraft已更新为单article模式。
 
 用法: python -X utf8 hot_news_runner.py news_data.json
 """
@@ -371,7 +373,7 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
     
-    print(f"=== V14 热点文娱新闻生成 ===")
+    print(f"=== V15 热点文娱新闻生成 ===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条")
     
