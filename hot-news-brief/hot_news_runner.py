@@ -1,1 +1,414 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwojIC0qLSBjb2Rpbmc6IHV0Zi04IC0qLQoiIiIKaG90X25ld3NfcnVubmVyLnB5IFYxNCAtIOe7n+S4gOaWsOmXu+eUn+aIkOiEmuacrAo05ZCIMTogUFBUICsgZG9jeCArIOWFrOS8l+WPt0hUTUwgKyDlhazkvJflj7fojYnnqL8oU3VwYWJhc2UgRWRnZSBGdW5jdGlvbuebtOiwgykKClYxNOWPmOabtDog5YWs5LyX5Y+36I2J56i/5LuOIGFwcG1pYW9kYS5jb20vYXBpIOaUueS4uuebtOiwgyBTdXBhYmFzZSBFZGdlIEZ1bmN0aW9uLAogICAgICAgICDmt7vliqBCZWFyZXIrYXBpa2V55Y+M6K6k6K+B5aS077yM5L+u5aSNZW50cnlwb2ludOmDqOe9sumXrumimOOAggoK55So5rOVOiBweXRob24gLVggdXRmOCBob3RfbmV3c19ydW5uZXIucHkgbmV3c19kYXRhLmpzb24KIiIiCgppbXBvcnQganNvbiwgb3MsIHN5cywgc3NsLCB1cmxsaWIucmVxdWVzdCwgcmUKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCgppbXBvcnQgcmVxdWVzdHMKZnJvbSBQSUwgaW1wb3J0IEltYWdlCmZyb20gcHB0eCBpbXBvcnQgUHJlc2VudGF0aW9uCmZyb20gcHB0eC51dGlsIGltcG9ydCBJbmNoZXMsIFB0LCBFbXUKZnJvbSBwcHR4LmRtbC5jb2xvciBpbXBvcnQgUkdCQ29sb3IKZnJvbSBwcHR4LmVudW0udGV4dCBpbXBvcnQgUFBfQUxJR04sIE1TT19BVVRPX1NJWkUKZnJvbSBkb2N4IGltcG9ydCBEb2N1bWVudApmcm9tIGRvY3guc2hhcmVkIGltcG9ydCBQdCBhcyBEb2NQdCwgSW5jaGVzIGFzIERvY0luY2hlcywgUkdCQ29sb3IgYXMgRG9jUkdCCmZyb20gZG9jeC5lbnVtLnRleHQgaW1wb3J0IFdEX0FMSUdOX1BBUkFHUkFQSAoKIyA9PT09PT09PT09PT09PT09PT09PT09PT0gQ29uZmlnID09PT09PT09PT09PT09PT09PT09PT09PQpCRyA9IFJHQkNvbG9yKDB4RjUsMHhGNSwweEZBKQpUSVRMRV9DID0gUkdCQ29sb3IoMHgxQSwweDU2LDB4REIpCkJPRFlfQyA9IFJHQkNvbG9yKDB4MzMsMHgzMywweDMzKQpBQ0NFTlRfQyA9IFJHQkNvbG9yKDB4M0IsMHg4MiwweEY2KQpHUkFZX0MgPSBSR0JDb2xvcigweDk5LDB4OTksMHg5OSkKU0FGRV9HQVAgPSBJbmNoZXMoMC4xMikKQ0hBUlNfUEVSX0lOQ0ggPSA0LjIKCiMgV2VDaGF0IGNyZWRlbnRpYWxzIChmb3IgTWlhb2RhIHNlcnZlci1zaWRlIHVzZSkKV1hfQVBQX0lEID0gInd4YjU2YjExZDQ3ZjliZGRhMSIKV1hfQVBQX1NFQ1JFVCA9ICI4ODVlMTZiZGFhOGU4MjIzNDUyMDU0YTU1OGE0NTMxZiIKCiMgTWlhb2RhIHByb3h5IC0gdmlhIFN1cGFiYXNlIEVkZ2UgRnVuY3Rpb24KU1VQQUJBU0VfVVJMID0gImh0dHBzOi8vYmFja2VuZC5hcHBtaWFvZGEuY29tL3Byb2plY3RzL3N1cGFiYXNlMzQwMzQwMTY2OTQ0MTQ1NDA4IgpTVVBBQkFTRV9LRVkgPSAiZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmhkV1FpT2lKaGRYUm9aVzUwYVdOaGRHVmtJaXdpWlhod0lqb3lNVEF3TlRjd05qRTVMQ0pwYzNNaU9pSnpkWEJoWW1GelpTSXNJbkp2YkdVaU9pSmhibTl1SWl3aWMzVmlJam9pWVc1dmJpSjkuOUgxZkRtRUVnN1lUQi1scWVXTFZCSzVWVHRyc3E0OWNlLUdLem9BTUxxUSIKTUlBT0RBX1VSTCA9IGYie1NVUEFCQVNFX1VSTH0vZnVuY3Rpb25zL3YxL2NyZWF0ZS1kcmFmdCIKCnNzbF9jdHggPSBzc2wuY3JlYXRlX2RlZmF1bHRfY29udGV4dCgpCnNzbF9jdHguY2hlY2tfaG9zdG5hbWUgPSBGYWxzZQpzc2xfY3R4LnZlcmlmeV9tb2RlID0gc3NsLkNFUlRfTk9ORQoKIyA9PT09PT09PT09PT09PT09PT09PT09PT0gSGVscGVycyA9PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIG51bV90b19jbihuKToKICAgIGQgPSAi6Zu25LiA5LqM5LiJ5Zub5LqU5YWt5LiD5YWr5LmdIgogICAgaWYgbiA8IDEwOiByZXR1cm4gZFtuXQogICAgaWYgbiA8IDIwOiByZXR1cm4gIuWNgSIgKyAoZFtuJTEwXSBpZiBuJTEwIGVsc2UgIiIpCiAgICBpZiBuIDwgMTAwOgogICAgICAgIHIgPSBkW24vLzEwXSArICLljYEiCiAgICAgICAgcmV0dXJuIHIgKyBkW24lMTBdIGlmIG4lMTAgZWxzZSByCiAgICByZXR1cm4gc3RyKG4pCgpkZWYgZGF0ZV90b19jbihkYXRlX3N0cik6CiAgICAiIiIyMDI2MDcyOCAtPiDkuozpm7bkuozlha3lubTkuIPmnIjkuozljYHlhavml6UiIiIKICAgIHksIG0sIGQgPSBpbnQoZGF0ZV9zdHJbOjRdKSwgaW50KGRhdGVfc3RyWzQ6Nl0pLCBpbnQoZGF0ZV9zdHJbNjo4XSkKICAgIHlfY24gPSAiIi5qb2luKG51bV90b19jbihpbnQoYykpIGZvciBjIGluIHN0cih5KSkKICAgIHJldHVybiBmInt5X2NuyeW5tHtudW1fdG9fY24obSl95pyIe251bV90b19jbihkKX3ml6UiCgpkZWYgdHJ1bmNhdGUodGV4dCwgbGltaXQ9MjAwKToKICAgIHJldHVybiB0ZXh0WzpsaW1pdC0zXSArICIuLi4iIGlmIGxlbih0ZXh0KSA+IGxpbWl0IGVsc2UgdGV4dAoKZGVmIGNvbXByZXNzX2ltYWdlKHBhdGgpOgogICAgaW1nID0gSW1hZ2Uub3BlbihwYXRoKQogICAgaWYgaW1nLm1vZGUgaW4gKCdQJywnTEEnLCdSR0JBJywnTCcsJ0FSR0InKToKICAgICAgICBpbWcgPSBpbWcuY29udmVydCgnUkdCJykKICAgIGlmIGltZy53aWR0aCA+IDEyMDA6CiAgICAgICAgcmF0aW8gPSAxMjAwIC8gaW1nLndpZHRoCiAgICAgICAgaW1nID0gaW1nLnJlc2l6ZSgoMTIwMCwgaW50KGltZy5oZWlnaHQqcmF0aW8pKSwgSW1hZ2UuTEFOQ1pPUykKICAgIGltZy5zYXZlKHBhdGgsICJKUEVHIiwgcXVhbGl0eT04NSkKCiMgPT09PT09PT09PT09PT09PT09PT09PT09IFBQVCA9PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIGdlbl9wcHQoYmFzZSwgZGF0YSwgbmV3cyk6CiAgICBwcnMgPSBQcmVzZW50YXRpb24oKQogICAgcHJzLnNsaWRlX3dpZHRoID0gSW5jaGVzKDEwKQogICAgcHJzLnNsaWRlX2hlaWdodCA9IEluY2hlcyg3LjUpCiAgICBkYXRlX2NuID0gZGF0YS5nZXQoImRhdGVfY2hpbmVzZSIsIGRhdGVfdG9fY24oZGF0YVsiZGF0ZSJdKSkKICAgIAogICAgZGVmIGFkZF9iZyhzbGlkZSk6CiAgICAgICAgYmcgPSBzbGlkZS5iYWNrZ3JvdW5kLmZpbGw7IGJnLnNvbGlkKCk7IGJnLmZvcmVfY29sb3IucmdiID0gQkcKICAgIAogICAgZGVmIGFkZF90ZXh0KHNsaWRlLCB4LCB5LCB3LCBoLCB0ZXh0LCBzaXplLCBjb2xvciwgYm9sZD1GYWxzZSwgYWxpZ249UFBfQUxJR04uTEVGVCwgd3JhcD1UcnVlLCBzcGFjaW5nPU5vbmUpOgogICAgICAgIHRiID0gc2xpZGUuc2hhcGVzLmFkZF90ZXh0Ym94KEluY2hlcyh4KSwgSW5jaGVzKHkpLCBJbmNoZXModyksIEluY2hlcyhoKSkKICAgICAgICB0ZiA9IHRiLnRleHRfZnJhbWU7IHRmLndvcmRfd3JhcCA9IHdyYXA7IHRmLmF1dG9fc2l6ZSA9IE1TT19BVVRPX1NJWkUuTk9ORQogICAgICAgIHAgPSB0Zi5wYXJhZ3JhcGhzWzBdOyBwLnRleHQgPSB0ZXh0CiAgICAgICAgcC5mb250LnNpemUgPSBQdChzaXplKTsgcC5mb250LmNvbG9yLnJnYiA9IGNvbG9yOyBwLmZvbnQuYm9sZCA9IGJvbGQKICAgICAgICBwLmFsaWdubWVudCA9IGFsaWduCiAgICAgICAgaWYgc3BhY2luZzogcC5saW5lX3NwYWNpbmcgPSBzcGFjaW5nCiAgICAgICAgcmV0dXJuIHAKICAgIAogICAgIyBTbGlkZSAxOiBDb3ZlcgogICAgcyA9IHBycy5zbGlkZXMuYWRkX3NsaWRlKHBycy5zbGlkZV9sYXlvdXRzWzZdKTsgYWRkX2JnKHMpCiAgICBhZGRfdGV4dChzLCAxLCAyLjUsIDgsIDEuNSwgIueDreeCueaWh+WoseaWsOmXuyIsIDQ0LCBUSVRMRV9DLCBUcnVlLCBQUF9BTElHTi5DRU5URVIpCiAgICBhZGRfdGV4dChzLCAxLCAzLjUsIDgsIDAuOCwgZGF0ZV9jbiwgMjQsIEFDQ0VOVF9DLCBGYWxzZSwgUFBfQUxJR04uQ0VOVEVSKQogICAgCiAgICAjIFNsaWRlIDI6IFRPQwogICAgcyA9IHBycy5zbGlkZXMuYWRkX3NsaWRlKHBycy5zbGlkZV9sYXlvdXRzWzZdKTsgYWRkX2JnKHMpCiAgICBhZGRfdGV4dChzLCAwLjUsIDAuMywgOSwgMC44LCAi5LuK5pel5a+86KeIIiwgMzIsIFRJVExFX0MsIFRydWUpCiAgICB5ID0gMS41CiAgICBmb3IgaSwgaXRlbSBpbiBlbnVtZXJhdGUobmV3cyk6CiAgICAgICAgYWRkX3RleHQocywgMSwgeSwgOCwgMC45LCBmIntpKzF9LiB7aXRlbVsndGl0bGUnXX0iLCAyMCwgQk9EWV9DKQogICAgICAgIHkgKz0gMC45CiAgICAKICAgICMgU2xpZGVzIDMtNzogRGV0YWlsCiAgICBmb3IgaXRlbSBpbiBuZXdzOgogICAgICAgIHMgPSBwcnMuc2xpZGVzLmFkZF9zbGlkZShwcnMuc2xpZGVfbGF5b3V0c1s2XSk7IGFkZF9iZyhzKQogICAgICAgIGltZ19wYXRoID0gb3MucGF0aC5qb2luKGJhc2UsIGl0ZW0uZ2V0KCJpbWFnZV9wYXRoIiwgZiJpbWFnZXMvbmV3c197aXRlbVsnaWQnXX0uanBnIikpCiAgICAgICAgaWYgb3MucGF0aC5leGlzdHMoaW1nX3BhdGgpOgogICAgICAgICAgICB0cnk6CiAgICAgICAgICAgICAgICBpbWcgPSBJbWFnZS5vcGVuKGltZ19wYXRoKQogICAgICAgICAgICAgICAgaXcsIGloID0gaW1nLnNpemUKICAgICAgICAgICAgICAgIHJhdGlvID0gbWluKDQuNS9pdyo3MiwgNC41L2loKjcyKS83MgogICAgICAgICAgICAgICAgcy5zaGFwZXMuYWRkX3BpY3R1cmUoaW1nX3BhdGgsIEluY2hlcygwLjUpLCBJbmNoZXMoMS41KSwgSW5jaGVzKGl3KnJhdGlvLzcyKSwgSW5jaGVzKGloKnJhdGlvLzcyKSkKICAgICAgICAgICAgZXhjZXB0OiBwYXNzCiAgICAgICAgCiAgICAgICAgYWRkX3RleHQocywgNSwgMC41LCA0LjUsIDEuNSwgaXRlbVsidGl0bGUiXSwgMjIsIFRJVExFX0MsIFRydWUpCiAgICAgICAgYWRkX3RleHQocywgNSwgMi4yLCA0LjUsIDIuNSwgdHJ1bmNhdGUoaXRlbVsiYm9keSJdKSwgMTQsIEJPRFlfQywgc3BhY2luZz0xLjM1KQogICAgICAgIGFkZF90ZXh0KHMsIDUsIDUuMCwgNC41LCAxLjUsICLjgJDliIbmnpDjgJEiK2l0ZW1bImFuYWx5c2lzIl0sIDEzLCBBQ0NFTlRfQywgc3BhY2luZz0xLjM1KQogICAgICAgIGFkZF90ZXh0KHMsIDUsIDYuNSwgNC41LCAwLjUsIGl0ZW1bInNvdXJjZSJdLCAxMCwgR1JBWV9DKQogICAgCiAgICAjIFNsaWRlIDg6IEVuZAogICAgcyA9IHBycy5zbGlkZXMuYWRkX3NsaWRlKHBycy5zbGlkZV9sYXlvdXRzWzZdKTsgYWRkX2JnKHMpCiAgICBhZGRfdGV4dChzLCAxLCAzLCA4LCAxLjUsIGRhdGVfY24sIDI4LCBUSVRMRV9DLCBGYWxzZSwgUFBfQUxJR04uQ0VOVEVSKQogICAgYWRkX3RleHQocywgMSwgNCwgOCwgMC44LCAi5pys5pyf5a6MIiwgMjAsIEFDQ0VOVF9DLCBGYWxzZSwgUFBfQUxJR04uQ0VOVEVSKQogICAgCiAgICBwYXRoID0gb3MucGF0aC5qb2luKGJhc2UsIGYi54Ot54K55paH5aix5paw6Ze7UFBUX3tkYXRhWydkYXRlJ119LnBwdHgiKQogICAgcHJzLnNhdmUocGF0aCkKICAgIHJldHVybiBwYXRoCgojID09PT09PT09PT09PT09PT09PT09PT09PSBkb2N4ID09PT09PT09PT09PT09PT09PT09PT09PQpkZWYgZ2VuX2RvY3goYmFzZSwgZGF0YSwgbmV3cyk6CiAgICBkb2MgPSBEb2N1bWVudCgpCiAgICBkYXRlX2NuID0gZGF0YS5nZXQoImRhdGVfY2hpbmVzZSIsIGRhdGVfdG9fY24oZGF0YVsiZGF0ZSJdKSkKICAgIAogICAgZGVmIGFkZF9wYXJhKHRleHQsIHNpemUsIGNvbG9yPU5vbmUsIGJvbGQ9RmFsc2UsIGFsaWduPU5vbmUsIGl0YWxpYz1GYWxzZSk6CiAgICAgICAgcCA9IGRvYy5hZGRfcGFyYWdyYXBoKCkKICAgICAgICBpZiBhbGlnbjogcC5hbGlnbm1lbnQgPSBhbGlnbgogICAgICAgIHJ1biA9IHAuYWRkX3J1bih0ZXh0KQogICAgICAgIHJ1bi5mb250LnNpemUgPSBEb2NQdChzaXplKTsgcnVuLmZvbnQuYm9sZCA9IGJvbGQ7IHJ1bi5mb250Lml0YWxpYyA9IGl0YWxpYwogICAgICAgIGlmIGNvbG9yOiBydW4uZm9udC5jb2xvci5yZ2IgPSBjb2xvcgogICAgICAgIHJldHVybiBwCiAgICAKICAgIGFkZF9wYXJhKGYie2RhdGVfY2595paw6Ze756i/IiwgMjIsIERvY1JHQigweDFBLDB4NTYsMHhEQiksIFRydWUsIFdEX0FMSUdOX1BBUkFHUkFQSC5DRU5URVIpCiAgICBhZGRfcGFyYSgi4oCU4oCUIOavj+aXpeeDreeCueaWh+Wosei1hOiuryDigJTigJQiLCAxMiwgRG9jUkdCKDB4NjYsMHg2NiwweDY2KSwgYWxpZ249V0RfQUxJR05fUEFSQUdSQVBILkNFTlRFUikKICAgIGRvYy5hZGRfcGFyYWdyYXBoKCkKICAgIGFkZF9wYXJhKCLlkITkvY3lkKzkvJfmnIvlj4vku6zlpKflrrblpb3vvIzmrKLov47mlLblkKzku4rml6Xng63ngrnmloflqLHmlrDpl7vjgIIiLCAxMSkKICAgIAogICAgZm9yIGksIGl0ZW0gaW4gZW51bWVyYXRlKG5ld3MpOgogICAgICAgIGFkZF9wYXJhKGYi56yse251bV90b19jbihpKzEpfeadoe+8jHtpdGVtWyd0aXRsZSddfeOAgiIsIDEzLCBEb2NSR0IoMHgxQSwweDU2LDB4REIpLCBUcnVlKQogICAgICAgIGNvbWJpbmVkID0gdHJ1bmNhdGUoaXRlbVsiYm9keSJdICsgaXRlbVsiYW5hbHlzaXMiXSkKICAgICAgICBwID0gYWRkX3BhcmEoY29tYmluZWQsIDExKQogICAgICAgIHAucGFyYWdyYXBoX2Zvcm1hdC5saW5lX3NwYWNpbmcgPSAxLjUKICAgICAgICBhZGRfcGFyYShpdGVtWyJzb3VyY2UiXSArICLjgIIiLCA5LCBEb2NSR0IoMHg5OSwweDk5LDB4OTkpLCBpdGFsaWM9VHJ1ZSkKICAgICAgICAKICAgICAgICBpbWdfcGF0aCA9IG9zLnBhdGguam9pbihiYXNlLCBpdGVtLmdldCgiaW1hZ2VfcGF0aCIsIGYiaW1hZ2VzL25ld3Nfe2l0ZW1bJ2lkJ119LmpwZyIpKQogICAgICAgIGlmIG9zLnBhdGguZXhpc3RzKGltZ19wYXRoKToKICAgICAgICAgICAgdHJ5OgogICAgICAgICAgICAgICAgcCA9IGRvYy5hZGRfcGFyYWdyYXBoKCk7IHAuYWxpZ25tZW50ID0gV0RfQUxJR05fUEFSQUdSQVBILkNFTlRFUgogICAgICAgICAgICAgICAgcC5hZGRfcnVuKCkuYWRkX3BpY3R1cmUoaW1nX3BhdGgsIHdpZHRoPURvY0luY2hlcyg0LjApKQogICAgICAgICAgICBleGNlcHQ6IHBhc3MKICAgICAgICBkb2MuYWRkX3BhcmFncmFwaCgpCiAgICAKICAgIGFkZF9wYXJhKCLku6XkuIrlsLHmmK/ku4rml6Xng63ngrnmloflqLHmlrDpl7vvvIzmhJ/osKLmgqjnmoTmlLblkKzjgIIiLCAxMSwgYWxpZ249V0RfQUxJR05fUEFSQUdSQVBILkNFTlRFUikKICAgIGFkZF9wYXJhKGRhdGVfY24sIDEwLCBEb2NSR0IoMHg2NiwweDY2LDB4NjYpLCBhbGlnbj1XRF9BTElHTl9QQVJBR1JBUEguQ0VOVEVSKQogICAgCiAgICBwYXRoID0gb3MucGF0aC5qb2luKGJhc2UsIGYie2RhdGVfY2595paw6Ze756i/LmRvY3giKQogICAgZG9jLnNhdmUocGF0aCkKICAgIHJldHVybiBwYXRoCgojID09PT09PT09PT09PT09PT09PT09PT09PSBIVE1MID09PT09PT09PT09PT09PT09PT09PT09PQpkZWYgZ2VuX2h0bWwoYmFzZSwgZGF0YSwgbmV3cyk6CiAgICBkYXRlX2NuID0gZGF0YS5nZXQoImRhdGVfY2hpbmVzZSIsIGRhdGVfdG9fY24oZGF0YVsiZGF0ZSJdKSkKICAgIGRkID0gZGF0YVsiZGF0ZV9kaXNwbGF5Il0KICAgIAogICAgY3NzID0gImJvZHl7Zm9udC1mYW1pbHk6LWFwcGxlLXN5c3RlbSxzYW5zLXNlcmlmO21hcmdpbjowO3BhZGRpbmc6MjBweDtjb2xvcjojMzMzfSIgXAogICAgICAgICAgIi5oe3RleHQtYWxpZ246Y2VudGVyO3BhZGRpbmc6MzBweCAwO2JhY2tncm91bmQ6bGluZWFyLWdyYWRpZW50KDEzNWRlZywjMWE1NmRiLCMzYjgyZjYpO2NvbG9yOiNmZmY7Ym9yZGVyLXJhZGl1czo4cHggOHB4IDAgMH0iIFwKICAgICAgICAgICIuaCBoMXtmb250LXNpemU6MjhweDttYXJnaW46MH0iICIuaCAuZHtmb250LXNpemU6MTZweDttYXJnaW4tdG9wOjEwcHg7b3BhY2l0eTouOX0iIFwKICAgICAgICAgICIubml7cGFkZGluZzoyNXB4IDIwcHg7Ym9yZGVyLWJvdHRvbToxcHggc29saWQgI2VlZX0iIFwKICAgICAgICAgICIubnR7Zm9udC1zaXplOjIwcHg7Zm9udC13ZWlnaHQ6Ym9sZDtjb2xvcjojMWE1NmRiO21hcmdpbi1ib3R0b206MTJweH0iIFwKICAgICAgICAgICIubmJ7Zm9udC1zaXplOjE1cHg7bGluZS1oZWlnaHQ6MS44O21hcmdpbi1ib3R0b206MTBweH0iIFwKICAgICAgICAgICIubmF7Zm9udC1zaXplOjE0cHg7Y29sb3I6IzNiODJmNjtsaW5lLWhlaWdodDoxLjc7cGFkZGluZzo4cHggMTJweDtiYWNrZ3JvdW5kOiNmMGY3ZmY7Ym9yZGVyLXJhZGl1czo0cHg7bWFyZ2luLWJvdHRvbTo4cHh9IiBcCiAgICAgICAgICAiLm5ze2ZvbnQtc2l6ZToxMnB4O2NvbG9yOiM5OTk7Zm9udC1zdHlsZTppdGFsaWN9IiAiLm5pIGltZ3t3aWR0aDoxMDAlO2JvcmRlci1yYWRpdXM6NnB4O21hcmdpbjoxMnB4IDB9IiBcCiAgICAgICAgICAiLmZ0e3RleHQtYWxpZ246Y2VudGVyO3BhZGRpbmc6MjBweDtjb2xvcjojOTk5O2ZvbnQtc2l6ZToxM3B4fSIKICAgIAogICAgcGFydHMgPSBbZic8IURPQ1RZUEUgaHRtbD48aHRtbCBsYW5nPSJ6aC1DTiI+PGhlYWQ+PG1ldGEgY2hhcnNldD0iVVRGLTgiPjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsaW5pdGlhbC1zY2FsZT0xIj4nLAogICAgICAgICAgICAgZic8dGl0bGU+e2RkfSDng63ngrnmloflqLHmlrDpl7s8L3RpdGxlPjxzdHlsZT57Y3NzfTwvc3R5bGU+PC9oZWFkPjxib2R5PicsCiAgICAgICAgICAgICBmJzxkaXYgc3R5bGU9Im1heC13aWR0aDo2NzdweDttYXJnaW46MCBhdXRvIj4nLAogICAgICAgICAgICAgZic8ZGl2IGNsYXNzPSJoIj48aDE+54Ot54K55paH5aix5paw6Ze7PC9oMT48ZGl2IGNsYXNzPSJkIj57ZGF0ZV9jbn08L2Rpdj48L2Rpdj4nXQogICAgCiAgICBmb3IgaXRlbSBpbiBuZXdzOgogICAgICAgIHBhcnRzLmFwcGVuZChmJzxkaXYgY2xhc3M9Im5pIj4nKQogICAgICAgIHBhcnRzLmFwcGVuZChmJzxkaXYgY2xhc3M9Im50Ij57aXRlbVsidGl0bGUiXX08L2Rpdj4nKQogICAgICAgIGltZ19wYXRoID0gaXRlbS5nZXQoImltYWdlX3BhdGgiLCBmImltYWdlcy9uZXdzX3tpdGVtWydpZCddfS5qcGciKQogICAgICAgIHBhcnRzLmFwcGVuZChmJzxpbWcgc3JjPSJ7aW1nX3BhdGh9IiBhbHQ9IntpdGVtWyJ0aXRsZSJdfSI+JykKICAgICAgICBwYXJ0cy5hcHBlbmQoZic8ZGl2IGNsYXNzPSJuYiI+e3RydW5jYXRlKGl0ZW1bImJvZHkiXSl9PC9kaXY+JykKICAgICAgICBwYXJ0cy5hcHBlbmQoZic8ZGl2IGNsYXNzPSJuYSI+44CQ5YiG5p6Q44CRe2l0ZW1bImFuYWx5c2lzIl19PC9kaXY+JykKICAgICAgICBwYXJ0cy5hcHBlbmQoZic8ZGl2IGNsYXNzPSJucyI+e2l0ZW1bInNvdXJjZSJdfTwvZGl2PicpCiAgICAgICAgcGFydHMuYXBwZW5kKCc8L2Rpdj4nKQogICAgCiAgICBwYXJ0cy5hcHBlbmQoZic8ZGl2IGNsYXNzPSJmdCI+PHA+e2RhdGVfY259PC9wPjxwPuacrOacn+WujDwvcD48L2Rpdj4nKQogICAgcGFydHMuYXBwZW5kKCc8L2Rpdj48L2JvZHk+PC9odG1sPicpCiAgICAKICAgIHBhdGggPSBvcy5wYXRoLmpvaW4oYmFzZSwgIndlY2hhdF9hcnRpY2xlLmh0bWwiKQogICAgd2l0aCBvcGVuKHBhdGgsICJ3IiwgZW5jb2Rpbmc9InV0Zi04IikgYXMgZjoKICAgICAgICBmLndyaXRlKCJcbiIuam9pbihwYXJ0cykpCiAgICByZXR1cm4gcGF0aAoKIyA9PT09PT09PT09PT09PT09PT09PT09PT0gV2VDaGF0IERyYWZ0IChTdXBhYmFzZSBFZGdlIEZ1bmN0aW9uKSA9PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIGdlbl93ZWNoYXRfZHJhZnQoYmFzZSwgZGF0YSwgbmV3cyk6CiAgICAiIiLpgJrov4dTdXBhYmFzZSBFZGdlIEZ1bmN0aW9u5Yib5bu65YWs5LyX5Y+36I2J56i/CiAgICBWMTQ6IOebtOiwg0VkZ2UgRnVuY3Rpb27nq6/ngrnvvIxCZWFyZXIrYXBpa2V55Y+M6K6k6K+BCiAgICDor4rmlq3mtYHnqIvop4FTS0lMTCBWMTTmoIflh4bljJbor4rmlq3nq6DoioIKICAgICIiIgogICAgaW1nX2RpciA9IG9zLnBhdGguam9pbihiYXNlLCAiaW1hZ2VzIikKICAgIG5ld3NfanNvbiA9IGpzb24uZHVtcHMoZGF0YSwgZW5zdXJlX2FzY2lpPUZhbHNlKQogICAgZmlsZXMgPSBbXQogICAgZm9yIGkgaW4gcmFuZ2UoMSwgNik6CiAgICAgICAgaW1nX3BhdGggPSBvcy5wYXRoLmpvaW4oaW1nX2RpciwgZiJuZXdzX3tpfS5qcGciKQogICAgICAgIGlmIG9zLnBhdGguZXhpc3RzKGltZ19wYXRoKToKICAgICAgICAgICAgZmlsZXMuYXBwZW5kKCgiaW1hZ2VzIiwgKGYibmV3c197aX0uanBnIiwgb3BlbihpbWdfcGF0aCwgInJiIiksICJpbWFnZS9qcGVnIikpKQogICAgCiAgICBwYXlsb2FkID0geyJuZXdzX2RhdGEiOiBuZXdzX2pzb259CiAgICAKICAgIHRyeToKICAgICAgICBoZWFkZXJzID0gewogICAgICAgICAgICAiQXV0aG9yaXphdGlvbiI6IGYiQmVhcmVyIHtTVVBBQkFTRV9LRVl9IiwKICAgICAgICAgICAgImFwaWtleSI6IFNVUEFCQVNFX0tFWSwKICAgICAgICB9CiAgICAgICAgcmVzcCA9IHJlcXVlc3RzLnBvc3QoTUlBT0RBX1VSTCwgZGF0YT1wYXlsb2FkLCBmaWxlcz1maWxlcywgaGVhZGVycz1oZWFkZXJzLCB2ZXJpZnk9RmFsc2UsIHRpbWVvdXQ9MTIwKQogICAgICAgIHJlc3VsdCA9IHJlc3AuanNvbigpCiAgICAgICAgaWYgcmVzdWx0LmdldCgic3VjY2VzcyIpOgogICAgICAgICAgICBwcmludChmIiAgW09LXSDojYnnqL/liJvlu7rmiJDlip8hIERyYWZ0IElEOiB7cmVzdWx0LmdldCgnZHJhZnRfaWQnKX0iKQogICAgICAgICAgICByZXR1cm4gcmVzdWx0CiAgICAgICAgZWxzZToKICAgICAgICAgICAgcHJpbnQoZiIgIFtFUlJPUl0g6I2J56i/5Yib5bu65aSx6LSlOiB7cmVzdWx0LmdldCgnZXJyb3InLCByZXN1bHQpfSIpCiAgICAgICAgICAgIHJldHVybiBOb25lCiAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgcHJpbnQoZiIgIFtFUlJPUl0g56eS5ZOS5Luj55CG6K+35rGC5byC5bi4OiB7ZX0iKQogICAgICAgIHJldHVybiBOb25lCiAgICBmaW5hbGx5OgogICAgICAgIGZvciBfLCBmX3R1cGxlIGluIGZpbGVzOgogICAgICAgICAgICBmX3R1cGxlWzFdLmNsb3NlKCkKCiMgPT09PT09PT09PT09PT09PT09PT09PT09IFZlcmlmeSA9PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIHZlcmlmeV9hbGwoYmFzZSwgZGF0YSwgbmV3cywgcHB0X3BhdGgsIGRvY3hfcGF0aCwgaHRtbF9wYXRoLCBkcmFmdF9yZXN1bHQ9Tm9uZSk6CiAgICBwcmludCgiXG49PT0g6aqM6K+B5Lqn5Ye6ID09PSIpCiAgICBvayA9IFRydWUKICAgIAogICAgaWYgb3MucGF0aC5leGlzdHMocHB0X3BhdGgpOgogICAgICAgIHNpemUgPSBvcy5wYXRoLmdldHNpemUocHB0X3BhdGgpCiAgICAgICAgcHJzID0gUHJlc2VudGF0aW9uKHBwdF9wYXRoKQogICAgICAgIHBpY3MgPSBzdW0oMSBmb3IgcyBpbiBwcnMuc2xpZGVzIGZvciBzaCBpbiBzLnNoYXBlcyBpZiBzaC5zaGFwZV90eXBlID09IDEzKQogICAgICAgIHN0YXR1cyA9ICJPSyIgaWYgc2l6ZSA+IDEwMjQwMCBhbmQgbGVuKHBycy5zbGlkZXMpID49IDggYW5kIHBpY3MgPj0gNSBlbHNlICJGQUlMIgogICAgICAgIHByaW50KGYiICBQUFQ6IHtzdGF0dXN9IHwge3NpemV9QiB8IHtsZW4ocHJzLnNsaWRlcyl96aG1IHwge3BpY3N95Zu+IikKICAgICAgICBvayA9IG9rIGFuZCBzdGF0dXMgPT0gIk9LIgogICAgZWxzZToKICAgICAgICBwcmludCgiICBQUFQ6IE1JU1NJTkciKTsgb2sgPSBGYWxzZQogICAgCiAgICBpZiBvcy5wYXRoLmV4aXN0cyhkb2N4X3BhdGgpOgogICAgICAgIHNpemUgPSBvcy5wYXRoLmdldHNpemUoZG9jeF9wYXRoKQogICAgICAgIGRvYyA9IERvY3VtZW50KGRvY3hfcGF0aCkKICAgICAgICB0ZXh0ID0gIlxuIi5qb2luKHAudGV4dCBmb3IgcCBpbiBkb2MucGFyYWdyYXBocykKICAgICAgICBoYXNfY25fZGF0ZSA9ICLkuozpm7bkuozlha0iIGluIHRleHQKICAgICAgICBuZXdzX2NvdW50ID0gc3VtKDEgZm9yIHAgaW4gZG9jLnBhcmFncmFwaHMgaWYgIuesrCIgaW4gcC50ZXh0IGFuZCAi5p2hIiBpbiBwLnRleHQpCiAgICAgICAgaW1nX2NvdW50ID0gc3VtKDEgZm9yIHIgaW4gZG9jLnBhcnQucmVscy52YWx1ZXMoKSBpZiAiaW1hZ2UiIGluIHIucmVsdHlwZSkKICAgICAgICBzdGF0dXMgPSAiT0siIGlmIHNpemUgPiAxMDI0MDAgYW5kIGhhc19jbl9kYXRlIGFuZCBuZXdzX2NvdW50ID49IDUgYW5kIGltZ19jb3VudCA+PSA1IGVsc2UgIkZBSUwiCiAgICAgICAgcHJpbnQoZiIgIGRvY3g6IHtzdGF0dXN9IHwge3NpemV9QiB8IHtuZXdzX2NvdW50feadoSB8IHtpbWdfY291bnR95Zu+IHwg5Lit5paH5pel5pyfOntoYXNfY25fZGF0ZX0iKQogICAgICAgIG9rID0gb2sgYW5kIHN0YXR1cyA9PSAiT0siCiAgICBlbHNlOgogICAgICAgIHByaW50KCIgIGRvY3g6IE1JU1NJTkciKTsgb2sgPSBGYWxzZQogICAgCiAgICBpZiBvcy5wYXRoLmV4aXN0cyhodG1sX3BhdGgpOgogICAgICAgIHByaW50KGYiICBIVE1MOiBPSyB8IHtvcy5wYXRoLmdldHNpemUoaHRtbF9wYXRoKX1CIikKICAgIGVsc2U6CiAgICAgICAgcHJpbnQoIiAgSFRNTDogTUlTU0lORyIpOyBvayA9IEZhbHNlCiAgICAKICAgIGlmIGRyYWZ0X3Jlc3VsdCBhbmQgZHJhZnRfcmVzdWx0LmdldCgic3VjY2VzcyIpOgogICAgICAgIHByaW50KGYiICDojYnnqL86IE9LIHwge2RyYWZ0X3Jlc3VsdC5nZXQoJ2RyYWZ0X2lkJyl9IikKICAgIGVsc2U6CiAgICAgICAgcHJpbnQoIiAg6I2J56i/OiBTS0lQIikKICAgIAogICAgcHJpbnQoZiJcbiAg5oC75L2TOiB7J+WFqOmDqOmAmui/hycgaWYgb2sgZWxzZSAn5pyJ6aG55pyq6YCa6L+HJ30iKQogICAgcmV0dXJuIG9rCgojID09PT09PT09PT09PT09PT09PT09PT09PSBNYWluID09PT09PT09PT09PT09PT09PT09PT09PQpkZWYgbWFpbigpOgogICAgaWYgbGVuKHN5cy5hcmd2KSA8IDI6CiAgICAgICAgcHJpbnQoIlVzYWdlOiBweXRob24gLVggdXRmOCBob3RfbmV3c19ydW5uZXIucHkgbmV3c19kYXRhLmpzb24iKQogICAgICAgIHN5cy5leGl0KDEpCiAgICAKICAgIGpzb25fcGF0aCA9IHN5cy5hcmd2WzFdCiAgICBiYXNlID0gb3MucGF0aC5kaXJuYW1lKG9zLnBhdGguYWJzcGF0aChqc29uX3BhdGgpKQogICAgCiAgICB3aXRoIG9wZW4oanNvbl9wYXRoLCAiciIsIGVuY29kaW5nPSJ1dGYtOCIpIGFzIGY6CiAgICAgICAgZGF0YSA9IGpzb24ubG9hZChmKQogICAgCiAgICBuZXdzID0gZGF0YVsibmV3cyJdCiAgICBpZiAiZGF0ZV9jaGluZXNlIiBub3QgaW4gZGF0YToKICAgICAgICBkYXRhWyJkYXRlX2NoaW5lc2UiXSA9IGRhdGVfdG9fY24oZGF0YVsiZGF0ZSJdKQogICAgCiAgICBwcmludChmIj09PSBWMTQg54Ot54K55paH5aix5paw6Ze755Sf5oiQID09PSIpCiAgICBwcmludChmIuaXpeacnzoge2RhdGFbJ2RhdGVfZGlzcGxheSddfSAoe2RhdGFbJ2RhdGVfY2hpbmVzZSddfSkiKQogICAgcHJpbnQoZiLmlrDpl7s6IHtsZW4obmV3cyl95p2hIikKICAgIAogICAgcHJpbnQoIlxuLS0tIOWOi+e8qemFjeWbviAtLS0iKQogICAgaW1nX2RpciA9IG9zLnBhdGguam9pbihiYXNlLCAiaW1hZ2VzIikKICAgIGZvciBpIGluIHJhbmdlKDEsIDYpOgogICAgICAgIHAgPSBvcy5wYXRoLmpvaW4oaW1nX2RpciwgZiJuZXdzX3tpfS5qcGciKQogICAgICAgIGlmIG9zLnBhdGguZXhpc3RzKHApOgogICAgICAgICAgICBjb21wcmVzc19pbWFnZShwKQogICAgICAgICAgICBwcmludChmIiAgbmV3c197aX0uanBnOiB7b3MucGF0aC5nZXRzaXplKHApfUIiKQogICAgCiAgICBwcmludCgiXG4tLS0g55Sf5oiQUFBUIC0tLSIpCiAgICBwcHRfcGF0aCA9IGdlbl9wcHQoYmFzZSwgZGF0YSwgbmV3cykKICAgIHByaW50KGYiICB7cHB0X3BhdGh9ICh7b3MucGF0aC5nZXRzaXplKHBwdF9wYXRoKX1CKSIpCiAgICAKICAgIHByaW50KCJcbi0tLSDnlJ/miJDmlrDpl7vnqL9kb2N4IC0tLSIpCiAgICBkb2N4X3BhdGggPSBnZW5fZG9jeChiYXNlLCBkYXRhLCBuZXdzKQogICAgcHJpbnQoZiIgIHtkb2N4X3BhdGh9ICh7b3MucGF0aC5nZXRzaXplKGRvY3hfcGF0aCl9QikiKQogICAgCiAgICBwcmludCgiXG4tLS0g55Sf5oiQ5YWs5LyX5Y+3SFRNTCAtLS0iKQogICAgaHRtbF9wYXRoID0gZ2VuX2h0bWwoYmFzZSwgZGF0YSwgbmV3cykKICAgIHByaW50KGYiICB7aHRtbF9wYXRofSAoe29zLnBhdGguZ2V0c2l6ZShodG1sX3BhdGgpfUIpIikKICAgIAogICAgZHJhZnRfcmVzdWx0ID0gTm9uZQogICAgaWYgb3MubmFtZSA9PSAncG9zaXgnOgogICAgICAgIHByaW50KCJcbi0tLSDlhazkvJflj7fojYnnqL8o56eS5ZOS5Luj55CGKSAtLS0iKQogICAgICAgIGRyYWZ0X3Jlc3VsdCA9IGdlbl93ZWNoYXRfZHJhZnQoYmFzZSwgZGF0YSwgbmV3cykKICAgIAogICAgdmVyaWZ5X2FsbChiYXNlLCBkYXRhLCBuZXdzLCBwcHRfcGF0aCwgZG9jeF9wYXRoLCBodG1sX3BhdGgsIGRyYWZ0X3Jlc3VsdCkKICAgIHByaW50KGYiXG49PT0g5a6M5oiQID09PSIpCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgbWFpbigpCg==
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+hot_news_runner.py V14.1 - 统一新闻生成脚本
+4合1: PPT + docx + 公众号HTML + 公众号草稿(Supabase Edge Function直调)
+
+V14变更: 公众号草稿从 appmiaoda.com/api 改为直调 Supabase Edge Function,
+         添加Bearer+apikey双认证头，修复entrypoint部署问题。
+V14.1变更: 新增配图一致性校验(check_image_consistency)、
+           工作区清理(cleanup_workspace，排除自身脚本不被删除)。
+
+用法: python -X utf8 hot_news_runner.py news_data.json
+"""
+
+import json, os, sys, ssl, urllib.request, re
+from pathlib import Path
+
+import requests
+from PIL import Image
+from pptx import Presentation
+from pptx.util import Inches, Pt, Emu
+from pptx.dml.color import RGBColor
+from pptx.enum.text import PP_ALIGN, MSO_AUTO_SIZE
+from docx import Document
+from docx.shared import Pt as DocPt, Inches as DocInches, RGBColor as DocRGB
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# ======================== Config ========================
+BG = RGBColor(0xF5,0xF5,0xFA)
+TITLE_C = RGBColor(0x1A,0x56,0xDB)
+BODY_C = RGBColor(0x33,0x33,0x33)
+ACCENT_C = RGBColor(0x3B,0x82,0xF6)
+GRAY_C = RGBColor(0x99,0x99,0x99)
+SAFE_GAP = Inches(0.12)
+CHARS_PER_INCH = 4.2
+
+# WeChat credentials (for Miaoda server-side use)
+WX_APP_ID = "wxb56b11d47f9bdda1"
+WX_APP_SECRET = "885e16bdaa8e8223452054a558a4531f"
+
+# Miaoda proxy - via Supabase Edge Function
+SUPABASE_URL = "https://backend.appmiaoda.com/projects/supabase340340166944145408"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoyMTAwNTcwNjE5LCJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwic3ViIjoiYW5vbiJ9.9H1fDmEEg7YTB-lqeWLVBK5VTtrsq49ce-GKzoAMLqQ"
+MIAODA_URL = f"{SUPABASE_URL}/functions/v1/create-draft"
+
+ssl_ctx = ssl.create_default_context()
+ssl_ctx.check_hostname = False
+ssl_ctx.verify_mode = ssl.CERT_NONE
+
+# ======================== Helpers ========================
+def num_to_cn(n):
+    d = "零一二三四五六七八九"
+    if n < 10: return d[n]
+    if n < 20: return "十" + (d[n%10] if n%10 else "")
+    if n < 100:
+        r = d[n//10] + "十"
+        return r + d[n%10] if n%10 else r
+    return str(n)
+
+def date_to_cn(date_str):
+    """20260728 -> 二零二六年七月二十八日"""
+    y, m, d = int(date_str[:4]), int(date_str[4:6]), int(date_str[6:8])
+    y_cn = "".join(num_to_cn(int(c)) for c in str(y))
+    return f"{y_cn}年{num_to_cn(m)}月{num_to_cn(d)}日"
+
+def truncate(text, limit=200):
+    return text[:limit-3] + "..." if len(text) > limit else text
+
+def compress_image(path):
+    img = Image.open(path)
+    if img.mode in ('P','LA','RGBA','L','ARGB'):
+        img = img.convert('RGB')
+    if img.width > 1200:
+        ratio = 1200 / img.width
+        img = img.resize((1200, int(img.height*ratio)), Image.LANCZOS)
+    img.save(path, "JPEG", quality=85)
+
+# ======================== PPT ========================
+def gen_ppt(base, data, news):
+    prs = Presentation()
+    prs.slide_width = Inches(10)
+    prs.slide_height = Inches(7.5)
+    date_cn = data.get("date_chinese", date_to_cn(data["date"]))
+    
+    def add_bg(slide):
+        bg = slide.background.fill; bg.solid(); bg.fore_color.rgb = BG
+    
+    def add_text(slide, x, y, w, h, text, size, color, bold=False, align=PP_ALIGN.LEFT, wrap=True, spacing=None):
+        tb = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
+        tf = tb.text_frame; tf.word_wrap = wrap; tf.auto_size = MSO_AUTO_SIZE.NONE
+        p = tf.paragraphs[0]; p.text = text
+        p.font.size = Pt(size); p.font.color.rgb = color; p.font.bold = bold
+        p.alignment = align
+        if spacing: p.line_spacing = spacing
+        return p
+    
+    # Slide 1: Cover
+    s = prs.slides.add_slide(prs.slide_layouts[6]); add_bg(s)
+    add_text(s, 1, 2.5, 8, 1.5, "热点文娱新闻", 44, TITLE_C, True, PP_ALIGN.CENTER)
+    add_text(s, 1, 3.5, 8, 0.8, date_cn, 24, ACCENT_C, False, PP_ALIGN.CENTER)
+    
+    # Slide 2: TOC
+    s = prs.slides.add_slide(prs.slide_layouts[6]); add_bg(s)
+    add_text(s, 0.5, 0.3, 9, 0.8, "今日导览", 32, TITLE_C, True)
+    y = 1.5
+    for i, item in enumerate(news):
+        add_text(s, 1, y, 8, 0.9, f"{i+1}. {item['title']}", 20, BODY_C)
+        y += 0.9
+    
+    # Slides 3-7: Detail
+    for item in news:
+        s = prs.slides.add_slide(prs.slide_layouts[6]); add_bg(s)
+        img_path = os.path.join(base, item.get("image_path", f"images/news_{item['id']}.jpg"))
+        if os.path.exists(img_path):
+            try:
+                img = Image.open(img_path)
+                iw, ih = img.size
+                ratio = min(4.5/iw*72, 4.5/ih*72)/72
+                s.shapes.add_picture(img_path, Inches(0.5), Inches(1.5), Inches(iw*ratio/72), Inches(ih*ratio/72))
+            except: pass
+        
+        add_text(s, 5, 0.5, 4.5, 1.5, item["title"], 22, TITLE_C, True)
+        add_text(s, 5, 2.2, 4.5, 2.5, truncate(item["body"]), 14, BODY_C, spacing=1.35)
+        add_text(s, 5, 5.0, 4.5, 1.5, "【分析】"+item["analysis"], 13, ACCENT_C, spacing=1.35)
+        add_text(s, 5, 6.5, 4.5, 0.5, item["source"], 10, GRAY_C)
+    
+    # Slide 8: End
+    s = prs.slides.add_slide(prs.slide_layouts[6]); add_bg(s)
+    add_text(s, 1, 3, 8, 1.5, date_cn, 28, TITLE_C, False, PP_ALIGN.CENTER)
+    add_text(s, 1, 4, 8, 0.8, "本期完", 20, ACCENT_C, False, PP_ALIGN.CENTER)
+    
+    path = os.path.join(base, f"热点文娱新闻PPT_{data['date']}.pptx")
+    prs.save(path)
+    return path
+
+# ======================== docx ========================
+def gen_docx(base, data, news):
+    doc = Document()
+    date_cn = data.get("date_chinese", date_to_cn(data["date"]))
+    
+    def add_para(text, size, color=None, bold=False, align=None, italic=False):
+        p = doc.add_paragraph()
+        if align: p.alignment = align
+        run = p.add_run(text)
+        run.font.size = DocPt(size); run.font.bold = bold; run.font.italic = italic
+        if color: run.font.color.rgb = color
+        return p
+    
+    add_para(f"{date_cn}新闻稿", 22, DocRGB(0x1A,0x56,0xDB), True, WD_ALIGN_PARAGRAPH.CENTER)
+    add_para("—— 每日热点文娱资讯 ——", 12, DocRGB(0x66,0x66,0x66), align=WD_ALIGN_PARAGRAPH.CENTER)
+    doc.add_paragraph()
+    add_para("各位听众朋友们大家好，欢迎收听今日热点文娱新闻。", 11)
+    
+    for i, item in enumerate(news):
+        add_para(f"第{num_to_cn(i+1)}条，{item['title']}。", 13, DocRGB(0x1A,0x56,0xDB), True)
+        combined = truncate(item["body"] + item["analysis"])
+        p = add_para(combined, 11)
+        p.paragraph_format.line_spacing = 1.5
+        add_para(item["source"] + "。", 9, DocRGB(0x99,0x99,0x99), italic=True)
+        
+        img_path = os.path.join(base, item.get("image_path", f"images/news_{item['id']}.jpg"))
+        if os.path.exists(img_path):
+            try:
+                p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                p.add_run().add_picture(img_path, width=DocInches(4.0))
+            except: pass
+        doc.add_paragraph()
+    
+    add_para("以上就是今日热点文娱新闻，感谢您的收听。", 11, align=WD_ALIGN_PARAGRAPH.CENTER)
+    add_para(date_cn, 10, DocRGB(0x66,0x66,0x66), align=WD_ALIGN_PARAGRAPH.CENTER)
+    
+    path = os.path.join(base, f"{date_cn}新闻稿.docx")
+    doc.save(path)
+    return path
+
+# ======================== HTML ========================
+def gen_html(base, data, news):
+    date_cn = data.get("date_chinese", date_to_cn(data["date"]))
+    dd = data["date_display"]
+    
+    css = "body{font-family:-apple-system,sans-serif;margin:0;padding:20px;color:#333}" \
+          ".h{text-align:center;padding:30px 0;background:linear-gradient(135deg,#1a56db,#3b82f6);color:#fff;border-radius:8px 8px 0 0}" \
+          ".h h1{font-size:28px;margin:0}" ".h .d{font-size:16px;margin-top:10px;opacity:.9}" \
+          ".ni{padding:25px 20px;border-bottom:1px solid #eee}" \
+          ".nt{font-size:20px;font-weight:bold;color:#1a56db;margin-bottom:12px}" \
+          ".nb{font-size:15px;line-height:1.8;margin-bottom:10px}" \
+          ".na{font-size:14px;color:#3b82f6;line-height:1.7;padding:8px 12px;background:#f0f7ff;border-radius:4px;margin-bottom:8px}" \
+          ".ns{font-size:12px;color:#999;font-style:italic}" ".ni img{width:100%;border-radius:6px;margin:12px 0}" \
+          ".ft{text-align:center;padding:20px;color:#999;font-size:13px}"
+    
+    parts = [f'<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
+             f'<title>{dd} 热点文娱新闻</title><style>{css}</style></head><body>',
+             f'<div style="max-width:677px;margin:0 auto">',
+             f'<div class="h"><h1>热点文娱新闻</h1><div class="d">{date_cn}</div></div>']
+    
+    for item in news:
+        parts.append(f'<div class="ni">')
+        parts.append(f'<div class="nt">{item["title"]}</div>')
+        img_path = item.get("image_path", f"images/news_{item['id']}.jpg")
+        parts.append(f'<img src="{img_path}" alt="{item["title"]}">')
+        parts.append(f'<div class="nb">{truncate(item["body"])}</div>')
+        parts.append(f'<div class="na">【分析】{item["analysis"]}</div>')
+        parts.append(f'<div class="ns">{item["source"]}</div>')
+        parts.append('</div>')
+    
+    parts.append(f'<div class="ft"><p>{date_cn}</p><p>本期完</p></div>')
+    parts.append('</div></body></html>')
+    
+    path = os.path.join(base, "wechat_article.html")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(parts))
+    return path
+
+# ======================== WeChat Draft (Supabase Edge Function) ========================
+def gen_wechat_draft(base, data, news):
+    """通过Supabase Edge Function创建公众号草稿
+    V14: 直调Edge Function端点，Bearer+apikey双认证
+    诊断流程见SKILL V14标准化诊断章节
+    """
+    img_dir = os.path.join(base, "images")
+    news_json = json.dumps(data, ensure_ascii=False)
+    files = []
+    for i in range(1, 6):
+        img_path = os.path.join(img_dir, f"news_{i}.jpg")
+        if os.path.exists(img_path):
+            files.append(("images", (f"news_{i}.jpg", open(img_path, "rb"), "image/jpeg")))
+    
+    payload = {"news_data": news_json}
+    
+    try:
+        headers = {
+            "Authorization": f"Bearer {SUPABASE_KEY}",
+            "apikey": SUPABASE_KEY,
+        }
+        resp = requests.post(MIAODA_URL, data=payload, files=files, headers=headers, verify=False, timeout=120)
+        result = resp.json()
+        if result.get("success"):
+            print(f"  [OK] 草稿创建成功! Draft ID: {result.get('draft_id')}")
+            return result
+        else:
+            print(f"  [ERROR] 草稿创建失败: {result.get('error', result)}")
+            return None
+    except Exception as e:
+        print(f"  [ERROR] 秒哒代理请求异常: {e}")
+        return None
+    finally:
+        for _, f_tuple in files:
+            f_tuple[1].close()
+
+# ======================== Verify ========================
+def verify_all(base, data, news, ppt_path, docx_path, html_path, draft_result=None):
+    print("\n=== 验证产出 ===")
+    ok = True
+    
+    if os.path.exists(ppt_path):
+        size = os.path.getsize(ppt_path)
+        prs = Presentation(ppt_path)
+        pics = sum(1 for s in prs.slides for sh in s.shapes if sh.shape_type == 13)
+        status = "OK" if size > 102400 and len(prs.slides) >= 8 and pics >= 5 else "FAIL"
+        print(f"  PPT: {status} | {size}B | {len(prs.slides)}页 | {pics}图")
+        ok = ok and status == "OK"
+    else:
+        print("  PPT: MISSING"); ok = False
+    
+    if os.path.exists(docx_path):
+        size = os.path.getsize(docx_path)
+        doc = Document(docx_path)
+        text = "\n".join(p.text for p in doc.paragraphs)
+        has_cn_date = "二零二六" in text
+        news_count = sum(1 for p in doc.paragraphs if "第" in p.text and "条" in p.text)
+        img_count = sum(1 for r in doc.part.rels.values() if "image" in r.reltype)
+        status = "OK" if size > 102400 and has_cn_date and news_count >= 5 and img_count >= 5 else "FAIL"
+        print(f"  docx: {status} | {size}B | {news_count}条 | {img_count}图 | 中文日期:{has_cn_date}")
+        ok = ok and status == "OK"
+    else:
+        print("  docx: MISSING"); ok = False
+    
+    if os.path.exists(html_path):
+        print(f"  HTML: OK | {os.path.getsize(html_path)}B")
+    else:
+        print("  HTML: MISSING"); ok = False
+    
+    if draft_result and draft_result.get("success"):
+        print(f"  草稿: OK | {draft_result.get('draft_id')}")
+    else:
+        print("  草稿: SKIP")
+    
+    print(f"\n  总体: {'全部通过' if ok else '有项未通过'}")
+    return ok
+
+# ======================== Image Consistency Check ========================
+def check_image_consistency(base, news):
+    img_dir = os.path.join(base, "images")
+    print("  图片与新闻内容对应关系:")
+    all_ok = True
+    for i, item in enumerate(news):
+        img_path = os.path.join(img_dir, f"news_{i+1}.jpg")
+        if os.path.exists(img_path):
+            try:
+                img = Image.open(img_path)
+                w, h = img.size
+                ratio = w / h if h > 0 else 0
+                fsize = os.path.getsize(img_path)
+                min_dim = min(w, h)
+                status = "OK" if fsize > 10240 and min_dim >= 200 else "WARN"
+                if status != "OK":
+                    all_ok = False
+                print(f"  [{status}] news_{i+1}.jpg: {w}x{h} ({ratio:.2f}) {fsize}B -> {item['title'][:30]}")
+            except Exception as e:
+                print(f"  [ERR] news_{i+1}.jpg: {e}")
+                all_ok = False
+        else:
+            print(f"  [MISS] news_{i+1}.jpg -> {item['title'][:30]}")
+            all_ok = False
+    print(f"  配图一致性: {'全部通过' if all_ok else '有项需关注'}")
+    return all_ok
+
+# ======================== Workspace Cleanup ========================
+def cleanup_workspace(base):
+    this_file = os.path.abspath(__file__)
+    workspace_root = os.path.dirname(os.path.dirname(base))
+    cleaned = 0
+
+    # 1. Clean scattered scripts in workdir (but not this file)
+    workdir = os.path.dirname(base)
+    for pattern in ["hot_news_runner.py", "hot_news_skill_article_SKILL_V*.md",
+                    "hot_news_runner_v*.py", "miaoda_api.py"]:
+        import glob
+        for p in glob.glob(os.path.join(workdir, pattern)):
+            if os.path.abspath(p) != this_file:
+                os.remove(p)
+                print(f"  删除: {os.path.basename(p)}")
+                cleaned += 1
+
+    # 2. Clean old output dirs in workspace root (not current session)
+    for d in os.listdir(workspace_root):
+        full = os.path.join(workspace_root, d)
+        if os.path.isdir(full) and d.startswith("ses_") and full != workdir:
+            for sub in os.listdir(full):
+                if "热点新闻" in sub or "hot_news" in sub.lower():
+                    import shutil
+                    shutil.rmtree(os.path.join(full, sub), ignore_errors=True)
+                    print(f"  删除: {d}/{sub}")
+                    cleaned += 1
+
+    # 3. Clean old output dirs in workspace root root
+    root_root = os.path.dirname(workspace_root)
+    if os.path.exists(root_root):
+        for d in os.listdir(root_root):
+            if "热点新闻" in d or "hot_news" in d.lower():
+                import shutil
+                shutil.rmtree(os.path.join(root_root, d), ignore_errors=True)
+                print(f"  删除: {d}")
+                cleaned += 1
+
+    print(f"  清理完成: 删除{cleaned}项")
+
+# ======================== Main ========================
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python -X utf8 hot_news_runner.py news_data.json")
+        sys.exit(1)
+    
+    json_path = sys.argv[1]
+    base = os.path.dirname(os.path.abspath(json_path))
+    
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    news = data["news"]
+    if "date_chinese" not in data:
+        data["date_chinese"] = date_to_cn(data["date"])
+    
+    print(f"=== V14 热点文娱新闻生成 ===")
+    print(f"日期: {data['date_display']} ({data['date_chinese']})")
+    print(f"新闻: {len(news)}条")
+    
+    print("\n--- 压缩配图 ---")
+    img_dir = os.path.join(base, "images")
+    for i in range(1, 6):
+        p = os.path.join(img_dir, f"news_{i}.jpg")
+        if os.path.exists(p):
+            compress_image(p)
+            print(f"  news_{i}.jpg: {os.path.getsize(p)}B")
+    
+    print("\n--- 生成PPT ---")
+    ppt_path = gen_ppt(base, data, news)
+    print(f"  {ppt_path} ({os.path.getsize(ppt_path)}B)")
+    
+    print("\n--- 生成新闻稿docx ---")
+    docx_path = gen_docx(base, data, news)
+    print(f"  {docx_path} ({os.path.getsize(docx_path)}B)")
+    
+    print("\n--- 生成公众号HTML ---")
+    html_path = gen_html(base, data, news)
+    print(f"  {html_path} ({os.path.getsize(html_path)}B)")
+    
+    draft_result = None
+    if os.name == 'posix':
+        print("\n--- 公众号草稿(秒哒代理) ---")
+        draft_result = gen_wechat_draft(base, data, news)
+    
+    verify_all(base, data, news, ppt_path, docx_path, html_path, draft_result)
+
+    print("\n--- 配图一致性校验 ---")
+    check_image_consistency(base, news)
+
+    print("\n--- 清理散落文件 ---")
+    cleanup_workspace(base)
+
+    print(f"\n=== 完成 ===")
+
+if __name__ == "__main__":
+    main()
