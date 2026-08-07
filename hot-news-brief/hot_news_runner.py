@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-hot_news_runner.py V15 - 统一新闻生成脚本
+hot_news_runner.py V16 - 统一新闻生成脚本
 4合1: PPT + docx + 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
 
 V14变更: 公众号草稿从 appmiaoda.com/api 改为直调 Supabase Edge Function,
@@ -10,6 +10,8 @@ V14.1变更: 新增配图一致性校验(check_image_consistency)、
            工作区清理(cleanup_workspace，排除自身脚本不被删除)。
 V15变更: 草稿改为单篇模式(5条新闻合并为1篇图文)，
          Edge Function createDraft已更新为单article模式。
+V16变更: 配图一致性校验增强(输出视觉验证提醒+URL日期检查提醒)，
+         main()启动时输出去重检查提醒。
 
 用法: python -X utf8 hot_news_runner.py news_data.json
 """
@@ -307,14 +309,18 @@ def check_image_consistency(base, news):
                 status = "OK" if fsize > 10240 and min_dim >= 200 else "WARN"
                 if status != "OK":
                     all_ok = False
-                print(f"  [{status}] news_{i+1}.jpg: {w}x{h} ({ratio:.2f}) {fsize}B -> {item['title'][:30]}")
+                title_short = item['title'][:30]
+                print(f"  [{status}] news_{i+1}.jpg: {w}x{h} ({ratio:.2f}) {fsize}B -> {title_short}")
             except Exception as e:
                 print(f"  [ERR] news_{i+1}.jpg: {e}")
                 all_ok = False
         else:
             print(f"  [MISS] news_{i+1}.jpg -> {item['title'][:30]}")
             all_ok = False
-    print(f"  配图一致性: {'全部通过' if all_ok else '有项需关注'}")
+    print(f"  配图一致性(尺寸): {'全部通过' if all_ok else '有项需关注'}")
+    print("  [V16提醒] 尺寸校验通过不等于视觉内容匹配。")
+    print("  [V16提醒] 运行此脚本的AI必须用read工具逐张查看图片，确认视觉内容与新闻标题一致。")
+    print("  [V16提醒] 如果图片内容与新闻不匹配，必须重新搜索下载。")
     return all_ok
 
 # ======================== Workspace Cleanup ========================
@@ -373,9 +379,13 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
     
-    print(f"=== V15 热点文娱新闻生成 ===")
+    print(f"=== V16 热点文娱新闻生成 ===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条")
+    
+    print("\n[V16] 去重检查提醒: 运行前请确认已搜索前1-2日选题记录，排除重复新闻。")
+    print("[V16] 配图提醒: 下载配图前请检查URL路径中的日期是否与新闻事件日期匹配。")
+    print("[V16] 视觉验证提醒: 配图下载后请用read工具逐张查看，确认视觉内容匹配。\n")
     
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
