@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-hot_news_runner.py V16 - 统一新闻生成脚本
+hot_news_runner.py V17 - 统一新闻生成脚本
 4合1: PPT + docx + 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
 
 V14变更: 公众号草稿从 appmiaoda.com/api 改为直调 Supabase Edge Function,
@@ -9,15 +9,43 @@ V14变更: 公众号草稿从 appmiaoda.com/api 改为直调 Supabase Edge Funct
 V14.1变更: 新增配图一致性校验(check_image_consistency)、
            工作区清理(cleanup_workspace，排除自身脚本不被删除)。
 V15变更: 草稿改为单篇模式(5条新闻合并为1篇图文)，
-         Edge Function createDraft已更新为单article模式。
+          Edge Function createDraft已更新为单article模式。
 V16变更: 配图一致性校验增强(输出视觉验证提醒+URL日期检查提醒)，
-         main()启动时输出去重检查提醒。
+          main()启动时输出去重检查提醒。
+V17变更: 新增ensure_dependencies()自动检测并安装缺失的Python依赖包(requests/Pillow/
+          python-pptx/python-docx)，消除沙箱环境首次运行ModuleNotFoundError硬故障。
+          cleanup_workspace改为仅在verify_all通过时执行，失败时保留文件供调试。
 
 用法: python -X utf8 hot_news_runner.py news_data.json
 """
 
-import json, os, sys, ssl, urllib.request, re
+import json, os, sys, ssl, urllib.request, re, subprocess
 from pathlib import Path
+
+# ======================== Auto Install Dependencies (V17) ========================
+def ensure_dependencies():
+    """自动检测并安装缺失的Python依赖包，消除沙箱首次运行ModuleNotFoundError硬故障。"""
+    required = {
+        'requests': 'requests',
+        'PIL': 'Pillow',
+        'pptx': 'python-pptx',
+        'docx': 'python-docx'
+    }
+    missing = []
+    for mod, pkg in required.items():
+        try:
+            __import__(mod)
+        except ImportError:
+            missing.append(pkg)
+    if missing:
+        print(f"--- 安装缺失依赖: {', '.join(missing)} ---")
+        subprocess.check_call(
+            [sys.executable, '-m', 'pip', 'install', '--quiet'] + missing,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        print("  依赖安装完成")
+
+ensure_dependencies()
 
 import requests
 from PIL import Image
@@ -318,9 +346,9 @@ def check_image_consistency(base, news):
             print(f"  [MISS] news_{i+1}.jpg -> {item['title'][:30]}")
             all_ok = False
     print(f"  配图一致性(尺寸): {'全部通过' if all_ok else '有项需关注'}")
-    print("  [V16提醒] 尺寸校验通过不等于视觉内容匹配。")
-    print("  [V16提醒] 运行此脚本的AI必须用read工具逐张查看图片，确认视觉内容与新闻标题一致。")
-    print("  [V16提醒] 如果图片内容与新闻不匹配，必须重新搜索下载。")
+    print("  [V17提醒] 尺寸校验通过不等于视觉内容匹配。")
+    print("  [V17提醒] 运行此脚本的AI必须用read工具逐张查看图片，确认视觉内容与新闻标题一致。")
+    print("  [V17提醒] 如果图片内容与新闻不匹配，必须重新搜索下载。")
     return all_ok
 
 # ======================== Workspace Cleanup ========================
@@ -379,13 +407,13 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
     
-    print(f"=== V16 热点文娱新闻生成 ===")
+    print(f"=== V17 热点文娱新闻生成 ===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条")
     
-    print("\n[V16] 去重检查提醒: 运行前请确认已搜索前1-2日选题记录，排除重复新闻。")
-    print("[V16] 配图提醒: 下载配图前请检查URL路径中的日期是否与新闻事件日期匹配。")
-    print("[V16] 视觉验证提醒: 配图下载后请用read工具逐张查看，确认视觉内容匹配。\n")
+    print("\n[V17] 去重检查提醒: 运行前请确认已搜索前1-2日选题记录，排除重复新闻。")
+    print("[V17] 配图提醒: 下载配图前请检查URL路径中的日期是否与新闻事件日期匹配。")
+    print("[V17] 视觉验证提醒: 配图下载后请用read工具逐张查看，确认视觉内容匹配。\n")
     
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
@@ -412,13 +440,16 @@ def main():
         print("\n--- 公众号草稿(秒哒代理) ---")
         draft_result = gen_wechat_draft(base, data, news)
     
-    verify_all(base, data, news, ppt_path, docx_path, html_path, draft_result)
+    verify_ok = verify_all(base, data, news, ppt_path, docx_path, html_path, draft_result)
 
     print("\n--- 配图一致性校验 ---")
     check_image_consistency(base, news)
 
-    print("\n--- 清理散落文件 ---")
-    cleanup_workspace(base)
+    if verify_ok:
+        print("\n--- 清理散落文件 ---")
+        cleanup_workspace(base)
+    else:
+        print("\n--- 验证未全部通过，跳过清理(保留文件供调试) ---")
 
     print(f"\n=== 完成 ===")
 
