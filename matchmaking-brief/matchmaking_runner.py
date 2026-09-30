@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-matchmaking_runner.py V1 - 婚介资讯云端统一生成脚本
+matchmaking_runner.py V1 - 威海红娘新闻云端统一生成脚本（婚介资讯主题）
 仿照 weihai_travel_runner.py（威海旅游新闻云端架构）改造：
   2合1: 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
   - 自动依赖安装（ensure_dependencies）
   - 配图压缩 + 一致性校验
   - 蓝色系配色（ACC=#1A56DB），与 weihai_travel_runner 一致
-  - 草稿标题固定：{date} 婚介资讯（main_title 字段，严禁混用其他主题标题）
+  - 草稿标题固定：{date_chinese} 威海红娘新闻（main_title 固定"威海红娘新闻"，严禁混用其他主题标题）
   - 凭据不硬编码：从环境变量读取，缺失时回退从同目录 hot_news_runner.py 提取
-  - 选题结构强制：第1条为婚介政策/爆炸新闻，最后一条为威海相亲新闻
+  - 选题结构强制（头条宏观有数据支撑 / 2-4条威海相亲优先(外省兜底) / 第5条威海婚介所优先(无则威海相亲)）
   - 不生成 PPT（区别于 weihai_travel_runner）
 
 用法: python -X utf8 matchmaking_runner.py news_data.json
@@ -45,12 +45,15 @@ import requests
 from PIL import Image
 
 # ======================== Config ========================
-MAIN_TITLE = "婚介资讯"
+MAIN_TITLE = "威海红娘新闻"
 
-# 选题结构校验关键词（用于结构强校验，title/summary 命中任意词即视为该位置主题匹配）
-POLICY_KEYWORDS = ["政策", "新规", "监管", "整治", "登记", "彩礼", "条例", "意见", "通知", "标准",
-                   "爆炸", "重磅", "首个", "全面", "紧急", "严查", "取缔", "罚款", "立案"]
+# 选题结构校验关键词（用于结构强校验）
+# 第1条=宏观类资讯关键词（政策/行业/数据类），第2-4条优先威海相亲（不强制），第5条=威海婚介所/威海相亲
+MACRO_KEYWORDS = ["政策", "新规", "监管", "整治", "登记", "彩礼", "条例", "意见", "通知", "标准",
+                  "报告", "数据显示", "同比", "市场规模", "增长", "万亿", "亿元", "结婚率", "初婚",
+                  "全国", "民政部", "重磅", "首个", "全面"]
 WEIHAI_KEYWORDS = ["威海", "荣成", "文登", "乳山", "经区", "高区", "临港", "环翠", "南海新区"]
+HUNJIESUO_KEYWORDS = ["婚介所", "婚介机构", "婚介服务", "婚恋咨询", "红娘", "牵线", "婚恋平台", "婚介中心"]
 
 
 # ======================== Credentials ========================
@@ -121,7 +124,7 @@ def compress_image(path):
 
 
 def check_selection_structure(news):
-    """强制选题结构：第1条为婚介政策/爆炸新闻，最后一条为威海相亲新闻。"""
+    """强制选题结构：第1条宏观资讯（政策/行业/数据），最后一条威海婚介所或威海相亲。"""
     ok = True
     problems = []
     if len(news) < 5:
@@ -130,20 +133,20 @@ def check_selection_structure(news):
     else:
         first = news[0]
         first_text = (first.get("title", "") + first.get("summary", "") + first.get("tag", ""))
-        first_ok = any(kw in first_text for kw in POLICY_KEYWORDS)
+        first_ok = any(kw in first_text for kw in MACRO_KEYWORDS)
         if not first_ok:
             ok = False
-            problems.append("第1条不是婚介政策/爆炸性新闻（未命中政策关键词）")
+            problems.append("第1条不是宏观类资讯（政策/行业/数据，未命中宏观关键词）")
 
         last = news[-1]
         last_text = (last.get("title", "") + last.get("summary", "") + last.get("tag", ""))
         last_ok = any(kw in last_text for kw in WEIHAI_KEYWORDS)
         if not last_ok:
             ok = False
-            problems.append("最后一条不是威海相亲相关新闻（未命中威海关键词）")
+            problems.append("最后一条不是威海本地新闻（未命中威海关键词）")
 
     status = "OK" if ok else "FAIL"
-    print(f"  选题结构: {status} | 第1条=政策/爆炸新闻 | 最后1条=威海相亲")
+    print(f"  选题结构: {status} | 第1条=宏观有数据 | 最后1条=威海(婚介所优先)")
     if problems:
         for p in problems:
             print(f"    [WARN] {p}")
@@ -200,7 +203,7 @@ def gen_html(base, data, news):
 
 # ======================== WeChat Draft (Supabase Edge Function) ========================
 def gen_wechat_draft(base, data, news, creds):
-    """通过Supabase Edge Function创建公众号草稿（单篇模式，标题固定"婚介资讯"）。"""
+    """通过Supabase Edge Function创建公众号草稿（单篇模式，标题固定"威海红娘新闻"）。"""
     if not creds.get("SUPABASE_KEY"):
         print("  [SKIP] 未获取到 SUPABASE_KEY，跳过草稿创建")
         return None
@@ -297,7 +300,7 @@ def verify_all(base, data, news, html_path, draft_result=None):
 # ======================== Image Consistency Check ========================
 def check_image_consistency(base, news):
     img_dir = os.path.join(base, "images")
-    print(" 图片与新闻内容对应关系:")
+    print("  图片与新闻内容对应关系:")
     all_ok = True
     for i, item in enumerate(news):
         img_path = os.path.join(img_dir, f"news_{i + 1}.jpg")
@@ -338,7 +341,7 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
 
-    print(f"=== V1 婚介资讯生成 ===")
+    print(f"=== V1 威海红娘新闻生成 ===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条 | 主题: {MAIN_TITLE}")
 
