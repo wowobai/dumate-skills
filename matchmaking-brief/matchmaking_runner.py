@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-matchmaking_runner.py V1 - 威海红娘新闻云端统一生成脚本（婚介资讯主题）
+matchmaking_runner.py V1.1 - 威海红娘新闻云端统一生成脚本（婚介资讯主题）
 仿照 weihai_travel_runner.py（威海旅游新闻云端架构）改造：
   2合1: 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
+  V1.1: 修复HTML大标题误接「每日热点」后缀；新增文案防错校验 check_text_quality()
   - 自动依赖安装（ensure_dependencies）
   - 配图压缩 + 一致性校验
   - 蓝色系配色（ACC=#1A56DB），与 weihai_travel_runner 一致
@@ -175,7 +176,7 @@ def gen_html(base, data, news):
              f'<meta name="viewport" content="width=device-width,initial-scale=1">',
              f'<title>{dd} {MAIN_TITLE}</title><style>{css}</style></head><body>',
              f'<div style="max-width:677px;margin:0 auto">',
-             f'<div class="h"><h1>{MAIN_TITLE}每日热点</h1><div class="d">{date_cn}</div></div>']
+             f'<div class="h"><h1>{MAIN_TITLE}</h1><div class="d">{date_cn}</div></div>']
 
     for item in news:
         parts.append('<div class="ni">')
@@ -272,6 +273,48 @@ def gen_wechat_draft(base, data, news, creds):
             ft[1].close()
 
 
+# ======================== 文案质量防错校验 (V1.1) ========================
+# 病句残留防错校验（V1.1 新增）：检测编辑压缩/拼接造成的低级文字错误
+RESIDUE_WORDS = "至的了以为在与及等和并"
+_CNQ = "\u201c\u201d\u300c\u300d"  # 中英文弯引号
+def check_text_quality(news):
+    """逐条检测 title/summary/impact 中的病句残留：
+    1) 数字%后紧跟单字虚词再接标点（如 28%至，）；
+    2) 句尾孤字（截断残留，如 …趋势明显。的前一句以残字收尾）；
+    3) 连续重复虚字（至至/的的/了了等）；
+    4) 中英文弯引号不成对；5) ASCII 双引号混入。
+    返回是否全部通过。"""
+    import re as _re
+    all_ok = True
+    pat_pct_residue = _re.compile(rf"\d+%[{RESIDUE_WORDS}][，。；、]")
+    pat_tail_word = _re.compile(rf"[{RESIDUE_WORDS}]$")
+    pat_dup = _re.compile(rf"([{RESIDUE_WORDS}])\1+")
+    for item in news:
+        nid = item.get("id", "?")
+        for field in ("title", "summary", "impact"):
+            t = item.get(field, "")
+            issues = []
+            for m in pat_pct_residue.finditer(t):
+                issues.append(f"数字后残留虚字「{m.group(0)}」")
+            for m in pat_tail_word.finditer(t):
+                issues.append(f"句尾孤字「{m.group(0)}」")
+            for m in pat_dup.finditer(t):
+                issues.append(f"重复虚字「{m.group(0)}」")
+            for ch in ("\u201c", "\u201d", "\u300c", "\u300d"):
+                if t.count(ch) % 2 != 0:
+                    issues.append(f"弯引号「{ch}」不成对")
+            if '"' in t:
+                issues.append("含ASCII双引号")
+            if issues:
+                all_ok = False
+                print(f"  [WARN] id={nid} {field}: {'; '.join(dict.fromkeys(issues))}")
+    if all_ok:
+        print("  文案质量: OK | 无残留虚字/句尾孤字/重复字/引号问题")
+    else:
+        print("  [V1.1提醒] 文案检出以上问题，发布前必须修正 news_data.json 后重跑。")
+    return all_ok
+
+
 # ======================== Verify ========================
 def verify_all(base, data, news, html_path, draft_result=None):
     print("\n=== 验证产出 ===")
@@ -347,6 +390,9 @@ def main():
 
     print("\n--- 选题结构校验 ---")
     structure_ok = check_selection_structure(news)
+
+    print("\n--- 文案质量校验 ---")
+    text_ok = check_text_quality(news)
 
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
