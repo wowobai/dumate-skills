@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-weihai_travel_runner.py V1 - 威海旅游新闻云端统一生成脚本
+weihai_travel_runner.py V2 - 威海旅游新闻云端统一生成脚本
 学习 hot_news_runner（HOT_NEWS V17+）架构：
   3合1: PPT + 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
   - 自动依赖安装（ensure_dependencies）
-  - 配图压缩 + 一致性校验
-  - 蓝色系配色（ACC=#1A56DB），与 weihai_travel_news SKILL V1 一致
+  - 配图压缩 + 双重校验（客观尺寸/大小 + 语义锚点清单驱动read比对）
+  - 蓝色系配色（ACC=#1A56DB），与 weihai_travel_news SKILL V3 一致
   - 草稿标题固定：{date} 威海旅游新闻（main_title 字段，严禁混用其他主题标题）
   - 凭据不硬编码：从环境变量读取，缺失时回退从同目录 hot_news_runner.py 提取
+
+V2 变更（2026-10-02，对齐 SKILL V3）:
+  - check_image_consistency 升级为双重校验：客观校验(尺寸/大小) + 输出「标题→应呈现锚点」清单，
+    语义校验须由运行方逐张 read 比对确认；客观通过 != 整体通过，语义未确认时输出 WARN
+  - main 末尾输出校验统计与 SKILL V3 纠错闭环提示（发现错误须复盘根因并升级 Skill）
 
 用法: python -X utf8 weihai_travel_runner.py news_data.json
 """
@@ -352,32 +357,54 @@ def verify_all(base, data, news, ppt_path, html_path, draft_result=None):
     return ok
 
 
-# ======================== Image Consistency Check ========================
+# ======================== Image Consistency Check (V2: 客观 + 语义双重校验) ========================
 def check_image_consistency(base, news):
+    """配图双重校验（V2，对齐 SKILL V3 锚点比对法）：
+    1. 客观校验：文件存在、PIL可读、min_dim>=200、size>=10KB
+    2. 语义校验：输出「标题 → 应呈现锚点元素」清单，运行方必须逐张 read 比对确认；
+       语义未确认前一律输出 WARN，严禁宣称「全部通过」。
+    返回 (objective_ok, semantic_confirmed)。
+    """
     img_dir = os.path.join(base, "images")
-    print("  图片与新闻内容对应关系:")
-    all_ok = True
+    print("  配图双重校验（客观 + 语义）:")
+    objective_ok = True
+    semantic_confirmed = True
     for i, item in enumerate(news):
         img_path = os.path.join(img_dir, f"news_{i + 1}.jpg")
+        title = item["title"][:40]
+        anchor = (item.get("img_keyword") or "").strip()
+        if not anchor:
+            anchor = title[:20]
         if os.path.exists(img_path):
             try:
                 img = Image.open(img_path)
                 w, h = img.size
                 fsize = os.path.getsize(img_path)
                 min_dim = min(w, h)
-                status = "OK" if fsize > 10240 and min_dim >= 200 else "WARN"
-                if status != "OK":
-                    all_ok = False
-                print(f"  [{status}] news_{i + 1}.jpg: {w}x{h} {fsize}B -> {item['title'][:30]}")
+                o_status = "OK" if (fsize > 10240 and min_dim >= 200) else "WARN"
+                if o_status != "OK":
+                    objective_ok = False
+                print(f"  [客观{o_status}] news_{i + 1}.jpg: {w}x{h} {fsize}B")
+                print(f"    标题     : {title}")
+                print(f"    应呈现锚点: {anchor}")
+                print(f"    -> 运行方须 read 查看图片，确认以上锚点元素在图中逐一对上；未确认不得视为通过")
+                semantic_confirmed = False
             except Exception as e:
                 print(f"  [ERR] news_{i + 1}.jpg: {e}")
-                all_ok = False
+                objective_ok = False
         else:
-            print(f"  [MISS] news_{i + 1}.jpg -> {item['title'][:30]}")
-            all_ok = False
-    print(f"  配图一致性(尺寸): {'全部通过' if all_ok else '有项需关注'}")
-    print("  [V1提醒] 尺寸校验通过不等于视觉内容匹配，运行方须用read工具逐张查看确认。")
-    return all_ok
+            print(f"  [MISS] news_{i + 1}.jpg -> {title}")
+            objective_ok = False
+    print(f"  客观校验(尺寸/大小): {'全部通过' if objective_ok else '有项需关注'}")
+    if semantic_confirmed:
+        print(f"  语义校验(read锚点比对): 全部通过")
+    else:
+        print(f"  语义校验(read锚点比对): 待运行方逐张 read 确认（未完成前整体不得判定通过）")
+    if objective_ok:
+        print("  总体: 客观通过；语义校验须 read 确认后方可视为配图校验完成")
+    else:
+        print("  总体: 有客观项未通过，须先修复配图再继续")
+    return objective_ok, (semantic_confirmed or False)
 
 
 # ======================== Main ========================
@@ -396,17 +423,21 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
 
-    print(f"=== V1 威海旅游新闻生成 ===")
+    print(f"=== V2 威海旅游新闻生成（SKILL V3）===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条 | 主题: {MAIN_TITLE}")
 
-    print("\n--- 压缩配图 ---")
+    print("\n--- 压缩配图（含锚点清单）---")
     img_dir = os.path.join(base, "images")
     for i in range(1, len(news) + 1):
         p = os.path.join(img_dir, f"news_{i}.jpg")
+        item = news[i - 1]
+        anchor = (item.get("img_keyword") or item["title"][:20]).strip()
         if os.path.exists(p):
             compress_image(p)
-            print(f"  news_{i}.jpg: {os.path.getsize(p)}B")
+            print(f"  news_{i}.jpg: {os.path.getsize(p)}B | 标题: {item['title'][:32]} | 锚点: {anchor}")
+        else:
+            print(f"  [MISS] news_{i}.jpg 不存在 -> {item['title'][:32]}")
 
     print("\n--- 生成PPT ---")
     ppt_path = gen_ppt(base, data, news)
@@ -424,8 +455,13 @@ def main():
 
     verify_all(base, data, news, ppt_path, html_path, draft_result)
 
-    print("\n--- 配图一致性校验 ---")
-    check_image_consistency(base, news)
+    print("\n--- 配图双重校验（V2: 客观+语义）---")
+    objective_ok, _semantic = check_image_consistency(base, news)
+    if not objective_ok:
+        print("\n[纠错闭环] 存在客观校验未通过项：按 SKILL V3 要求记录错误→四层根因分析→更新 SKILL/runner→升级版本→推回 GitHub。")
+    else:
+        print("\n[纠错闭环] 客观校验通过；请运行方完成语义 read 比对后，确认无错误再交付。")
+        print("           若本轮发现任何错误（配图不符/数据问题等）：必须执行 SKILL V3 纠错闭环（复盘→更新Skill→升级版本→推回GitHub），禁止只修本次产物。")
 
     print(f"\n=== 完成 ===")
 
