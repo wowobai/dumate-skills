@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-hot_news_runner.py V17 - 统一新闻生成脚本
+hot_news_runner.py V20 - 统一新闻生成脚本（配套 SKILL V20；V17→V20 期间仅SKILL流程侧更新，逻辑兼容）
 4合1: PPT + docx + 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
 
 V14变更: 公众号草稿从 appmiaoda.com/api 改为直调 Supabase Edge Function,
@@ -15,6 +15,8 @@ V16变更: 配图一致性校验增强(输出视觉验证提醒+URL日期检查�
 V17变更: 新增ensure_dependencies()自动检测并安装缺失的Python依赖包(requests/Pillow/
           python-pptx/python-docx)，消除沙箱环境首次运行ModuleNotFoundError硬故障。
           cleanup_workspace改为仅在verify_all通过时执行，失败时保留文件供调试。
+V20变更: 版本号与 SKILL V20 对齐同步（运行成本记录/效率复盘/版本自检由 SKILL 流程侧承载，
+          本脚本逻辑无功能变更，保持兼容）。
 
 用法: python -X utf8 hot_news_runner.py news_data.json
 """
@@ -407,13 +409,14 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
     
-    print(f"=== V17 热点文娱新闻生成 ===")
+    print(f"=== V20 热点文娱新闻生成（SKILL V20）===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条")
     
     print("\n[V17] 去重检查提醒: 运行前请确认已搜索前1-2日选题记录，排除重复新闻。")
     print("[V17] 配图提醒: 下载配图前请检查URL路径中的日期是否与新闻事件日期匹配。")
-    print("[V17] 视觉验证提醒: 配图下载后请用read工具逐张查看，确认视觉内容匹配。\n")
+    print("[V17] 视觉验证提醒: 配图下载后请用read工具逐张查看，确认视觉内容匹配。")
+    print("[V20] 成本复盘提醒: 运行结束后请按 SKILL V20 步骤6 在产出目录写 cost_report.md 成本复盘（成本快照/token统计/效率经验/浪费复盘/改进落地）。\n")
     
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
