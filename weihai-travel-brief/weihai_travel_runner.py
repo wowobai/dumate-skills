@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-weihai_travel_runner.py V2 - 威海旅游新闻云端统一生成脚本
+weihai_travel_runner.py V4 - 威海旅游新闻云端统一生成脚本（配套 SKILL V4；逻辑兼容）
 学习 hot_news_runner（HOT_NEWS V17+）架构：
   3合1: PPT + 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
   - 自动依赖安装（ensure_dependencies）
@@ -14,6 +14,9 @@ V2 变更（2026-10-02，对齐 SKILL V3）:
   - check_image_consistency 升级为双重校验：客观校验(尺寸/大小) + 输出「标题→应呈现锚点」清单，
     语义校验须由运行方逐张 read 比对确认；客观通过 != 整体通过，语义未确认时输出 WARN
   - main 末尾输出校验统计与 SKILL V3 纠错闭环提示（发现错误须复盘根因并升级 Skill）
+V4 变更（2026-10-07，对齐 SKILL V4）:
+  - 版本号与 SKILL V4 对齐同步（运行成本记录/效率复盘/版本自检由 SKILL 流程侧承载，
+    本脚本逻辑无功能变更，保持兼容）
 
 用法: python -X utf8 weihai_travel_runner.py news_data.json
 """
@@ -423,9 +426,10 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
 
-    print(f"=== V2 威海旅游新闻生成（SKILL V3）===")
+    print(f"=== V4 威海旅游新闻生成（SKILL V4）===")
     print(f"日期: {data['date_display']} ({data['date_chinese']})")
     print(f"新闻: {len(news)}条 | 主题: {MAIN_TITLE}")
+    print("[V4] 成本复盘提醒: 运行结束后请按 SKILL V4 步骤7 写 cost_report.md（成本快照/token统计/效率经验/浪费复盘/改进落地）。\n")
 
     print("\n--- 压缩配图（含锚点清单）---")
     img_dir = os.path.join(base, "images")
@@ -455,13 +459,13 @@ def main():
 
     verify_all(base, data, news, ppt_path, html_path, draft_result)
 
-    print("\n--- 配图双重校验（V2: 客观+语义）---")
+    print("\n--- 配图双重校验（客观+语义）---")
     objective_ok, _semantic = check_image_consistency(base, news)
     if not objective_ok:
-        print("\n[纠错闭环] 存在客观校验未通过项：按 SKILL V3 要求记录错误→四层根因分析→更新 SKILL/runner→升级版本→推回 GitHub。")
+        print("\n[纠错闭环] 存在客观校验未通过项：按 SKILL V4 要求记录错误→四层根因分析→更新 SKILL/runner→升级版本→推回 GitHub。")
     else:
         print("\n[纠错闭环] 客观校验通过；请运行方完成语义 read 比对后，确认无错误再交付。")
-        print("           若本轮发现任何错误（配图不符/数据问题等）：必须执行 SKILL V3 纠错闭环（复盘→更新Skill→升级版本→推回GitHub），禁止只修本次产物。")
+        print("           若本轮发现任何错误（配图不符/数据问题等）：必须执行 SKILL V4 纠错闭环（复盘→更新Skill→升级版本→推回GitHub），禁止只修本次产物。")
 
     print(f"\n=== 完成 ===")
 
