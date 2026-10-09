@@ -46,7 +46,7 @@
 1. **优选**：从上一步 websearch 结果直接取图；不足 5 条补 1 次 `websearch(query="威海 对应地点/事件", image_count=5)`。
 2. URL 域名/模式过滤：跳过 logo/icon/avatar/biz 等非新闻图。
 3. 下载 `images/travel_1.jpg` ~ `travel_5.jpg`（**带下划线**）。
-4. **程序化锚点校验（runner 内置）**：PIL 校验（min_dim≥300、≥15KB）+ image_query 需含 location 锚点词 + 来源域名白名单；不合格自动换源 1 次。
+4. **程序化锚点校验（runner 内置 PIL，与 runner 阈值一致）**：min_dim≥200、文件≥10KB + image_query 需含 location 锚点词 + 来源域名白名单；不合格自动换源 1 次。
 5. 优先威海实景/现场照；严禁带字幕/台词/远景空镜。
 
 ### 步骤4：运行三合一脚本
