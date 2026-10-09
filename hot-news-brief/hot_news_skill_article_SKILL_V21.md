@@ -50,7 +50,7 @@
 1. **优选**：从上一步 websearch 返回结果中已有图片 URL 选取（同批获取，不再单独搜索）；不足 5 条时最多补 1 次 `websearch(query="新闻关键词", image_count=5)`。
 2. **URL 域名/模式过滤**：跳过 logo/icon/avatar/favicon/business/transform/w180h180/kandian/default.png 等非新闻图。
 3. 下载为 `images/news_1.jpg` ~ `news_5.jpg`（**带下划线**，禁止 news1.jpg）。
-4. **程序化校验（runner 内置）**：PIL 检查 min_dim≥300、文件≥15KB、宽高比合理；不合格自动换源 1 次（URL 更换），不再人工 read。
+4. **程序化校验（runner 内置 PIL，与 runner 阈值一致）**：min_dim≥200、文件≥10KB、宽高比合理；不合格自动换源 1 次（URL 更换），不再人工 read。
 5. 严禁带台词/字幕/文字图片；优先人物照/新闻现场照/颁奖照。
 
 ### 步骤4：运行统一脚本
