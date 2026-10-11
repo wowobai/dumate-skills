@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-matchmaking_runner.py V1.1 - 威海红娘新闻云端统一生成脚本（婚介资讯主题）
+matchmaking_runner.py V1.2 - 威海红娘新闻云端统一生成脚本（婚介资讯主题）
 仿照 weihai_travel_runner.py（威海旅游新闻云端架构）改造：
   2合1: 公众号HTML + 公众号草稿(Supabase Edge Function直调, 单篇模式)
   V1.1: 修复HTML大标题误接「每日热点」后缀；新增文案防错校验 check_text_quality()
+  V1.2: 修复 check_text_quality 弯引号配对判断——由"单字符出现次数奇偶"改为"左引号数==右引号数"（原逻辑1对引号必误报）
   - 自动依赖安装（ensure_dependencies）
   - 配图压缩 + 一致性校验
   - 蓝色系配色（ACC=#1A56DB），与 weihai_travel_runner 一致
@@ -300,9 +301,11 @@ def check_text_quality(news):
                 issues.append(f"句尾孤字「{m.group(0)}」")
             for m in pat_dup.finditer(t):
                 issues.append(f"重复虚字「{m.group(0)}」")
-            for ch in ("\u201c", "\u201d", "\u300c", "\u300d"):
-                if t.count(ch) % 2 != 0:
-                    issues.append(f"弯引号「{ch}」不成对")
+            for left, right in (("\u201c", "\u201d"), ("\u300c", "\u300d")):
+                lc = t.count(left)
+                rc = t.count(right)
+                if lc != rc:
+                    issues.append(f"弯引号「{left}{right}」不成对（左{lc}右{rc}）")
             if '"' in t:
                 issues.append("含ASCII双引号")
             if issues:
