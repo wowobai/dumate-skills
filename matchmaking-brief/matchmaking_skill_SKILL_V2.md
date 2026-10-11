@@ -32,7 +32,7 @@
 | 去重 | memory_search + 读前一日json | memory_search 1 + bash 提取标题 1 | 10~25 |
 | 新闻搜索 | **5 次并行 websearch** + 独立配图搜索 | **3 次并行 websearch**（+按需补搜1次，条件触发） | 30~70 |
 | 生成 news_data.json | 1 次 write | 1 次 write | 5~10 |
-| 配图下载与处理 | 独立图片搜索 + 多次 curl + 逐张处理 | **1 次 bash 批量**（原文/百度图API + PIL一键） | 10~25 |
+| 配图下载与处理 | 独立图片搜索 + 多次 curl + 逐张处理 | **1 次 bash 批量**（原文og:image + 精确词Bing + PIL一键） | 10~25 |
 | 配图视觉验证 | **5 次 read 逐张** | **1 次 read 拼接图**（异常才补读单张） | 15~40 |
 | 运行 runner | 1 次 bash | 1 次 bash | 10~25 |
 | 最终验证 | 多处 read/检查 | 1 次 bash 汇总（配图结果复用） | 5~15 |
@@ -149,10 +149,10 @@ head -c 300 matchmaking_runner.py  # 确认版本号，禁止 read 全文
 **注意**：summary 与 impact 中严禁英文双引号 `"`，用中文引号 `“ ”` 替代。
 
 ### 步骤5：配图下载与处理（1 次 bash，V2 精简）
-**控费要点：不发起独立图片搜索**。配图来源优先级：
-1. **首选：新闻原文 URL 提取**——从步骤3搜索结果中已经出现的新闻原文链接，用 curl 抓取正文含图（过滤 logo/icon/avatar/business/transform/kandian/w180h180 等 URL 特征）
-2. **次选：百度图片 API** `https://image.baidu.com/search/acjson`（按 img_keyword 取图）
-3. **兜底：仅当上面都失败**，才允许 1 次 websearch image_count 补图（计入预算，须在报告说明）
+**控费要点：不发起独立图片搜索**。配图来源优先级（**V2.1 实测修正**）：
+1. **首选：新闻原文 URL 提取 og:image**——从步骤3搜索结果中已经出现的新闻原文链接，用 curl 抓取页面 `<meta property="og:image">` 取图（过滤 logo/icon/avatar/business/transform/kandian/w180h180 等 URL 特征；无 og:image 时再回退解析正文首图）
+2. **次选：精确词 Bing 图片搜索**——用 `https://www.bing.com/images/search?q=精确事件/机构名` 抓 HTML 中 `murl` 字段取图；**关键词务必带原文明确的事件/机构/地点名**（如"重庆梁平 月老红娘 相亲"），不要用泛词（泛词会返回不相关图）；优先可访问且无水印的图
+3. **禁用通道（实测不可用，勿再尝试）**：百度图片 API `https://image.baidu.com/search/acjson` 已反爬（返回 Forbid spider access）；websearch 的 image_count 不返回图片条目，不作为配图通道
 
 **下载与处理一次脚本完成（1 次 bash）**：
 ```bash
@@ -274,6 +274,7 @@ echo "--- 选题结构 ---"; python3 -c "import json; n=json.load(open('news_dat
 | V1 | 2026-09-30 | 初始版本：仿照 weihai_travel_skill_V2 云端架构；无PPT，仅公众号HTML+草稿；选题结构固定；草稿标题恒含「威海红娘新闻」；每日08:00定时触发 |
 | V1.1 | 2026-09-30 | 修复 HTML 大标题误接「每日热点」后缀；新增文案防错校验 check_text_quality() |
 | **V2** | **2026-10-11** | **积分精简版：单次运行积分红线≤240。并行搜索 5→3（+条件补搜1次）；取消独立图片搜索（改原文/百度图API+1次bash批量）；配图视觉验证 5 次 read→1 次拼接图 read；取版合并 1 次 bash 且 MD5 复用；最终验证收敛 1 次 bash；总调用 11-13 次、积分约 90~225；新增积分预算表与运行后积分复盘** |
+| **V2.1** | **2026-10-11** | **实测修正配图链路：百度图片 API 已反爬（Forbid spider access）不可用、websearch 不返回图片条目，弃用两者；配图改为「原文og:image 提取优先 → 精确词 Bing（murl）兜底」；同步修复 runner V1.2 引号配对判断（左==右，原奇偶判断会误报合法单对引号）** |
 
 ## 依据
 本SKILL V2 对齐 weihai_travel_skill_V2 / HOT_NEWS 云端架构（自动版本拉取、秒哒草稿链路、依赖自安装、PIL配图预筛），按婚介领域定制选题结构与信息源红线；V2 在保持全部功能与约束的前提下，通过压缩搜索次数、配图链路与验证次数将单次积分控制在 240 以内。公众号凭据来源见 hot-news-brief/hot_news_runner.py。
