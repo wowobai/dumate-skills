@@ -217,8 +217,7 @@ for it in n:
                 loc=m.group(0)
                 if any(loc.endswith(s) for s in skip): continue
                 bad.append((it['id'], field, loc))
-print('区级地点缺省市:', bad if bad else '无')
-"
+print('区级地点缺省市:', bad if bad else '无')"
 ```
 **验收标准（全部通过才交付）**：
 - [ ] `wechat_article.html` 存在
