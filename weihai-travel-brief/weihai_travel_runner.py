@@ -273,7 +273,9 @@ def gen_wechat_draft(base, data, news, creds):
         item.setdefault("image_query", n.get("img_keyword", n.get("title", "")[:20]))
         mapped_news.append(item)
     payload_data = {
-        "date": data["date"], "date_display": data["date_display"],
+        # 标题一行化：秒哒端按 date_display + " " + main_title 拼接草稿标题，
+        # 此处 date_display 置空，草稿标题只保留主标题「威海旅游新闻」一行
+        "date": data["date"], "date_display": "",
         "main_title": MAIN_TITLE, "news": mapped_news,
     }
     news_json = json.dumps(payload_data, ensure_ascii=False)
