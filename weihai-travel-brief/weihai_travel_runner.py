@@ -12,7 +12,7 @@ weihai_travel_runner.py V6 - 威海旅游新闻云端统一生成脚本（配套
 用法: python -X utf8 weihai_travel_runner.py news_data.json
 """
 
-import json, os, sys, ssl, re, subprocess
+import json, os, sys, ssl, re, subprocess, shutil
 from pathlib import Path
 
 # ======================== Auto Install Dependencies ========================
@@ -279,8 +279,13 @@ def gen_wechat_draft(base, data, news, creds):
     news_json = json.dumps(payload_data, ensure_ascii=False)
     img_dir = os.path.join(base, "images")
     files = []
-    for i in range(1, len(news) + 1):
+    # 秒哒端 create-draft 固定校验 5 张图；不足时复制最后一张真实图补足，保证草稿创建成功
+    for i in range(1, 6):
         p = os.path.join(img_dir, f"news_{i}.jpg")
+        if not os.path.exists(p):
+            last = os.path.join(img_dir, f"news_{len(news)}.jpg")
+            if os.path.exists(last):
+                shutil.copyfile(last, p)
         if os.path.exists(p):
             files.append(("images", (f"news_{i}.jpg", open(p, "rb"), "image/jpeg")))
     supabase_url = creds.get("SUPABASE_URL", "").rstrip("/")
