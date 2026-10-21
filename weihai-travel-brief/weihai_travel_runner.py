@@ -235,9 +235,9 @@ def gen_html(base, data, news):
            ".ft{text-align:center;padding:20px;color:#999;font-size:13px}")
     parts = [f'<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">',
              f'<meta name="viewport" content="width=device-width,initial-scale=1">',
-             f'<title>{dd} 威海旅游新闻</title><style>{css}</style></head><body>',
+             f'<title>威海旅游新闻</title><style>{css}</style></head><body>',
              f'<div style="max-width:677px;margin:0 auto">',
-             f'<div class="h"><h1>威海旅游新闻热点TOP{len(news)}</h1><div class="d">{date_cn}</div></div>']
+             f'<div class="h"><h1>威海旅游新闻</h1><div class="d">{date_cn}</div></div>']
     for item in news:
         parts.append('<div class="ni">')
         tag = item.get("tag", "")
