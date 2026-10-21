@@ -170,11 +170,13 @@ def gen_ppt(base, data, news):
             p.line_spacing = spacing
         return p
 
+    # Slide 1: Cover
     s = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(s)
-    add_text(s, 1, 2.3, 8, 1.5, "威海旅游新闻热点TOP5", 44, TITLE_C, True, PP_ALIGN.CENTER)
+    add_text(s, 1, 2.3, 8, 1.5, f"威海旅游新闻热点TOP{len(news)}", 44, TITLE_C, True, PP_ALIGN.CENTER)
     add_text(s, 1, 3.4, 8, 0.8, date_cn, 24, ACCENT_C, False, PP_ALIGN.CENTER)
 
+    # Slide 2: TOC
     s = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(s)
     add_text(s, 0.5, 0.3, 9, 0.8, "今日导览", 32, TITLE_C, True)
@@ -184,6 +186,7 @@ def gen_ppt(base, data, news):
         add_text(s, 1, y, 8, 0.9, f"{i + 1}. [{tag}] {item['title']}", 18, BODY_C)
         y += 0.95
 
+    # Slides 3-7: Detail
     for item in news:
         s = prs.slides.add_slide(prs.slide_layouts[6])
         add_bg(s)
@@ -204,12 +207,13 @@ def gen_ppt(base, data, news):
         add_text(s, 5, 5.0, 4.5, 1.5, "【看点】" + truncate(analysis, 150), 13, ACCENT_C, spacing=1.35)
         add_text(s, 5, 6.6, 4.5, 0.5, item["source"], 10, GRAY_C)
 
+    # Slide 8: End
     s = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(s)
     add_text(s, 1, 3, 8, 1.5, date_cn, 28, TITLE_C, False, PP_ALIGN.CENTER)
     add_text(s, 1, 4, 8, 0.8, "本期完", 20, ACCENT_C, False, PP_ALIGN.CENTER)
 
-    path = os.path.join(base, "威海旅游新闻热点TOP5.pptx")
+    path = os.path.join(base, f"威海旅游新闻热点TOP{len(news)}.pptx")
     prs.save(path)
     return path
 
@@ -233,7 +237,7 @@ def gen_html(base, data, news):
              f'<meta name="viewport" content="width=device-width,initial-scale=1">',
              f'<title>{dd} 威海旅游新闻</title><style>{css}</style></head><body>',
              f'<div style="max-width:677px;margin:0 auto">',
-             f'<div class="h"><h1>威海旅游新闻热点TOP5</h1><div class="d">{date_cn}</div></div>']
+             f'<div class="h"><h1>威海旅游新闻热点TOP{len(news)}</h1><div class="d">{date_cn}</div></div>']
     for item in news:
         parts.append('<div class="ni">')
         tag = item.get("tag", "")
@@ -323,7 +327,7 @@ def verify_all(base, data, news, ppt_path, html_path, draft_result=None):
         size = os.path.getsize(ppt_path)
         prs = Presentation(ppt_path)
         pics = sum(1 for s in prs.slides for sh in s.shapes if sh.shape_type == 13)
-        st = "OK" if size > 102400 and len(prs.slides) >= 8 and pics >= 5 else "FAIL"
+        st = "OK" if size > 102400 and len(prs.slides) >= len(news) + 3 and pics >= len(news) else "FAIL"
         ok = ok and st == "OK"
         lines.append(f"PPT:{st}({size}B/{len(prs.slides)}页/{pics}图)")
     else:
