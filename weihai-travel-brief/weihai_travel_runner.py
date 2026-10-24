@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-weihai_travel_runner.py V6 - 威海旅游新闻云端统一生成脚本（配套 SKILL V6，300积分控制版）
+weihai_travel_runner.py V6.4 - 威海旅游新闻云端统一生成脚本（配套 SKILL V6.4，300积分控制版）
   - 自动依赖安装（ensure_dependencies，缺才装）
   - 配图压缩 + 程序化校验（客观尺寸/大小，不做 read 语义校验）
-  - 草稿总标题有且只有一个且带日期：秒哒端按 "${date_display} ${main_title}" 生成（如「2026年10月21日 威海旅游新闻」），正文不重复标题
+  - 取新闻/配图主路径（模型侧，非本脚本）：webfetch 直取权威本地源 www.whnews.cn / weihai.iqilu.com 并直取其正文图；工具口径 memory_search 1 + webfetch ≤6 + websearch ≤2 + runner 1
+  - 草稿总标题有且只有一个且带日期：秒哒端按 "${date_display} ${main_title}" 生成（如「2026年10月25日 威海旅游新闻」），正文不重复标题
   - 凭据不硬编码：从环境变量读取，缺失时回退从同目录 hot_news_runner.py 提取
   - 输出精简：verify 单行化，删除 read 引导与复盘长文，减少回灌输入 token
   - 内置 gen_placeholder：候选图不足时生成浅色渐变+标题占位图，保证 PIL 校验通过
@@ -274,7 +275,7 @@ def gen_wechat_draft(base, data, news, creds):
         mapped_news.append(item)
     payload_data = {
         # 草稿总标题有且只有一个且带日期：秒哒端 create-draft 按 `${date_display} ${main_title}` 生成
-        # （如「2026年10月21日 威海旅游新闻」）；正文 header 不输出标题、仅一行日期（线上 V17 起）
+        # （如「2026年10月25日 威海旅游新闻」）；正文 header 不输出标题、仅一行日期（线上 V17 起）
         "date": data["date"], "date_display": data.get("date_display", ""),
         "main_title": MAIN_TITLE, "news": mapped_news,
     }
@@ -386,7 +387,7 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
 
-    print(f"=== V6 威海旅游新闻生成 | {data['date_display']} | {len(news)}条 | {MAIN_TITLE} ===")
+    print(f"=== V6.4 威海旅游新闻生成 | {data['date_display']} | {len(news)}条 | {MAIN_TITLE} ===")
 
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
