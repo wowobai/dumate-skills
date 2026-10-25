@@ -104,7 +104,7 @@ def gen_placeholder(path, title, tag=""):
 def _read_const_from_file(path, name):
     try:
         src = open(path, encoding="utf-8").read()
-        m = re.search(rf'^{name}\\s*=\\s*["\\']([^"\\']+)["\\']', src, re.M)
+        m = re.search(rf'^{name}\s*=\s*["\']([^"\']+)["\']', src, re.M)
         return m.group(1) if m else ""
     except Exception:
         return ""
