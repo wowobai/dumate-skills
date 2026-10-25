@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-weihai_travel_runner.py V6.5 - 威海旅游新闻云端统一生成脚本（配套 SKILL V6.5，300积分控制版）
+weihai_travel_runner.py V6.6 - 威海旅游新闻云端统一生成脚本（配套 SKILL V6.6，300积分控制版）
   - 第N次运行原则（模型侧）：搜索窗口按 T-1/T-2/T-3 回溯规则确定；当天新闻不去重、前一天新闻去重；同日多次运行发现更持久更热事件即替换掉榜条目
   - 自动依赖安装（ensure_dependencies，缺才装）
-  - 配图压缩 + 程序化校验（客观尺寸/大小，不做 read 语义校验）
+  - 配图压缩 + 程序化校验（客观尺寸/大小）；配图语义由「同源 + 三级回退」规则保证（见下）
+  - 【V6.6 配图规则（模型侧，非本脚本）】配图必须与条目同源（取自该条新闻自身正文页，严禁跨条/跨文取图）；无法取得活动实拍图时，改用正文提到的无商标实物图（如海参、水饺等本地美食/产品，须无品牌 Logo、无商户招牌、无第三方水印）；禁用品牌/展位/水印图；以上都不可得才用 gen_placeholder 兜底；易错配条目允许对至多 1 张关键图做 1 次 read 核验
   - 取新闻/配图主路径（模型侧，非本脚本）：webfetch 直取权威本地源 www.whnews.cn / weihai.iqilu.com 并直取其正文图；工具口径 memory_search 1 + webfetch ≤6 + websearch ≤2 + runner 1
   - 草稿总标题有且只有一个且带日期：秒哒端按 "${date_display} ${main_title}" 生成（如「2026年10月25日 威海旅游新闻」），正文不重复标题
   - 凭据不硬编码：从环境变量读取，缺失时回退从同目录 hot_news_runner.py 提取
   - 输出精简：verify 单行化，删除 read 引导与复盘长文，减少回灌输入 token
   - 内置 gen_placeholder：候选图不足时生成浅色渐变+标题占位图，保证 PIL 校验通过
+  - 【V6.6 修复】PPT 配图按 4.5×4.5 英寸图框等比缩放（原实现尺寸公式多除 1 个 72，导致图片仅约 0.06 英寸、近乎不可见）
 
 用法: python -X utf8 weihai_travel_runner.py news_data.json
 """
@@ -102,7 +104,7 @@ def gen_placeholder(path, title, tag=""):
 def _read_const_from_file(path, name):
     try:
         src = open(path, encoding="utf-8").read()
-        m = re.search(rf'^{name}\s*=\s*["\']([^"\']+)["\']', src, re.M)
+        m = re.search(rf'^{name}\\s*=\\s*["\\']([^"\\']+)["\\']', src, re.M)
         return m.group(1) if m else ""
     except Exception:
         return ""
@@ -197,9 +199,11 @@ def gen_ppt(base, data, news):
             try:
                 img = Image.open(img_path)
                 iw, ih = img.size
-                ratio = min(4.5 / iw * 72, 4.5 / ih * 72) / 72
-                s.shapes.add_picture(img_path, Inches(0.5), Inches(1.5),
-                                     Inches(iw * ratio / 72), Inches(ih * ratio / 72))
+                scale = min(4.5 / iw, 4.5 / ih)  # 英寸/像素：等比缩放进 4.5×4.5 英寸图框
+                w_in, h_in = iw * scale, ih * scale
+                top = 1.5 + (4.5 - h_in) / 2  # 图框内垂直居中
+                s.shapes.add_picture(img_path, Inches(0.5), Inches(top),
+                                     Inches(w_in), Inches(h_in))
             except Exception:
                 pass
         body = item.get("body", item.get("summary", ""))
@@ -388,7 +392,7 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
 
-    print(f"=== V6.5 威海旅游新闻生成 | {data['date_display']} | {len(news)}条 | {MAIN_TITLE} ===")
+    print(f"=== V6.6 威海旅游新闻生成 | {data['date_display']} | {len(news)}条 | {MAIN_TITLE} ===")
 
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
