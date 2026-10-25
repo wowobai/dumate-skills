@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-weihai_travel_runner.py V6.4 - 威海旅游新闻云端统一生成脚本（配套 SKILL V6.4，300积分控制版）
+weihai_travel_runner.py V6.5 - 威海旅游新闻云端统一生成脚本（配套 SKILL V6.5，300积分控制版）
+  - 第N次运行原则（模型侧）：搜索窗口按 T-1/T-2/T-3 回溯规则确定；当天新闻不去重、前一天新闻去重；同日多次运行发现更持久更热事件即替换掉榜条目
   - 自动依赖安装（ensure_dependencies，缺才装）
   - 配图压缩 + 程序化校验（客观尺寸/大小，不做 read 语义校验）
   - 取新闻/配图主路径（模型侧，非本脚本）：webfetch 直取权威本地源 www.whnews.cn / weihai.iqilu.com 并直取其正文图；工具口径 memory_search 1 + webfetch ≤6 + websearch ≤2 + runner 1
@@ -387,7 +388,7 @@ def main():
     if "date_chinese" not in data:
         data["date_chinese"] = date_to_cn(data["date"])
 
-    print(f"=== V6.4 威海旅游新闻生成 | {data['date_display']} | {len(news)}条 | {MAIN_TITLE} ===")
+    print(f"=== V6.5 威海旅游新闻生成 | {data['date_display']} | {len(news)}条 | {MAIN_TITLE} ===")
 
     print("\n--- 压缩配图 ---")
     img_dir = os.path.join(base, "images")
